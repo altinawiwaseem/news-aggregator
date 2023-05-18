@@ -15,7 +15,8 @@ class UserController extends Controller
 
         try {
             $validatedData = $req->validate([
-                'name' => 'required|string|max:255',
+                'firstName' => 'required|string|max:255',
+                'lastName' => 'required|string|max:255',
                 'email' => 'required|string|email|unique:users|max:255',
                 'password' => 'required|string|min:3',
             ]);
@@ -25,7 +26,8 @@ class UserController extends Controller
     
         // Save the user to the database
         $user = User::create([
-            'name' => $validatedData['name'],
+            'firstName' => $validatedData['firstName'],
+            'lastName' => $validatedData['lastName'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
         ]);

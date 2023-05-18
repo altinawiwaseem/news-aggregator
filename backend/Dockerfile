@@ -1,5 +1,5 @@
 # Use the official PHP image as the base image
-FROM php:8.0-apache
+FROM php:8.1-apache
 
 # Set the working directory inside the container
 WORKDIR /var/www/html
@@ -19,12 +19,12 @@ RUN a2enmod rewrite
 # Copy the project files from the host to the container
 COPY . /var/www/html
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage
+# Set permissions for storage directory
+RUN chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
 # Install composer dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer install --no-interaction --no-scripts --no-dev --optimize-autoloader
 
 # Set up environment variables
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
