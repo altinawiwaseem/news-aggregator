@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\NController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +18,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+
 Route::post("register", [UserController::class, "register"]);
 
 Route::post("login", [UserController::class, "login"]);
 
 Route::post('/logout', [UserController::class, 'logout']);
+
+
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

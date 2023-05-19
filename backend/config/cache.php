@@ -14,8 +14,9 @@ return [
     | not explicitly specified when executing a given caching function.
     |
     */
+    'default' => 'array',
 
-    'default' => env('CACHE_DRIVER', 'file'),
+    /* 'default' => env('CACHE_DRIVER', 'file'), */
 
     /*
     |--------------------------------------------------------------------------

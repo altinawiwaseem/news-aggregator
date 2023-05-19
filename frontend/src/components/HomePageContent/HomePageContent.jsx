@@ -2,15 +2,15 @@ import React from "react";
 
 /* function to display the home page content */
 function HomepageContent() {
-  return (
-    <div className=" shadow-2xl h-full flex flex-col  dark:bg-dark-raisin-black-2">
+  return {
+    /* <div className=" shadow-2xl h-full flex flex-col  dark:bg-dark-raisin-black-2">
       <section className="text-gray-600 body-font h-full my-5">
         <div className="container mx-auto flex md:flex-row flex-col items-center ">
           <div className="lg:max-w-lg md:w-4/5 sm:mr-5 mb-10 md:mb-0   border-ultramarine-blue">
             <img
               className="object-cover object-center  rounded-md w-full md:h-80  "
               alt="hero"
-              /* src={Stream} */
+              src={Stream} 
             />
           </div>
           <div className="lg:flex-grow  border-y-2 p-14 md:w-3/5  border-y-4  border-ultramarine-blue flex align-center flex-col  dark:bg-oxford-blue rounded-md  dark:border-cyber-yellow">
@@ -50,13 +50,13 @@ function HomepageContent() {
             <img
               className="object-cover object-c  mdp-10 rounded-md w-full md:h-full  "
               alt="hero"
-              /* src={Computer} */
-            />
+             
+            /> 
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>*/
+  };
 }
 
 export default HomepageContent;

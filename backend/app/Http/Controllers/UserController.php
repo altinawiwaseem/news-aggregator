@@ -12,7 +12,7 @@ class UserController extends Controller
 
 
     public function register(Request $req){
-
+       
         try {
             $validatedData = $req->validate([
                 'firstName' => 'required|string|max:255',
