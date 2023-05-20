@@ -5,56 +5,13 @@ import { languages } from "../../utili/languges";
 import NewsCard from "../NewsCard/NewsCard";
 
 const News = () => {
-  const { formRefs, updateFormData, fetchNews, news } = useContext(NewsContext);
-
-  const defaultLangauesOption = "en";
-
-  const defaultLanguage = localStorage.getItem("formData")
-    ? getLanguageName(JSON.parse(localStorage.getItem("formData")).language)
-    : getLanguageName(defaultLangauesOption);
-
-  const [selectedLanguage, setSelectedLanguage] = useState(defaultLanguage);
-
-  function getLanguageName(code) {
-    const language = languages.find((lang) => lang.code === code);
-    return language ? language.name : "";
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const languageValue = formRefs.language.current.value;
-
-    // Update the selected language in the state
-    setSelectedLanguage(languageValue);
-
-    const formData = {};
-
-    Object.keys(formRefs).forEach((name) => {
-      formData[name] = formRefs[name]?.current?.value;
-    });
-    const formDataObj = {};
-    Object.entries(formData).forEach(([name, value]) => {
-      formDataObj[name] = value;
-      localStorage.setItem("formData", JSON.stringify(formDataObj));
-      updateFormData(name, value);
-    });
-
-    fetchNews();
-  };
-
-  const countries = Object.entries(countriesList.countries).map(
-    ([code, country]) => ({
-      code,
-      name: country.name,
-    })
-  );
+  const { news } = useContext(NewsContext);
 
   return (
-    <div>
+    <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-16   pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
       {/* Display news articles */}
 
-      {news && news.map((post) => <NewsCard post={post} />)}
+      {news && news.map((post, i) => <NewsCard post={post} key={i} i={i} />)}
     </div>
   );
 };

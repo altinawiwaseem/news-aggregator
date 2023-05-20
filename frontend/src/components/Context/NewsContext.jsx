@@ -12,24 +12,12 @@ const NewsProvider = ({ children }) => {
 
   const [formData, setFormData] = useState(retrieveFormDataFromLocalStorage());
 
-  const formRefs = {
-    category: useRef(),
-    searchIn: useRef(),
-    country: useRef(),
-    sources: useRef(),
-    q: useRef(),
-    from: useRef(),
-    to: useRef(),
-    language: useRef(),
-  };
-
   const updateFormData = (name, value) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }));
   };
-  console.log("formData", formData);
 
   function retrieveFormDataFromLocalStorage() {
     const formData = localStorage.getItem("formData");
@@ -43,36 +31,74 @@ const NewsProvider = ({ children }) => {
   const newsApiKey = process.env.REACT_APP_MEWS_API_KEY;
   const newsUrl = process.env.REACT_APP_MEWS_API_URL;
 
+  const guardianApiKey = process.env.REACT_APP_GUARDIAN_API_KEY;
+
+  const guardianUrl = process.env.REACT_APP_GUARDIAN_API_URL;
+
   const fetchNews = async () => {
     try {
       const endpoint = "top-headlines";
-      const params = {
+
+      const newsApiParams = {
         q: formData.q,
-        sources: formData.sources,
         category: formData.category,
         searchIn: formData.searchIn,
         country: formData.country,
         from: formData.from,
         to: formData.to,
         language: formData.language,
-        apiKey: newsApiKey,
+        apiKey: "dfa44fd0d3e04a7c8078ca422d98b83a",
+      };
+      const guardianApiParams = {
+        q: formData.q,
+        tag: formData.tag,
+        section: formData.category,
+        from: formData.from,
+        to: formData.to,
+        "api-key": guardianApiKey,
       };
 
-      const queryString = Object.keys(params)
-        .filter((key) => params[key]) // Only include parameters with values
-        .map(
-          (key) =>
-            `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
-        )
-        .join("&");
+      const queryString = (params) =>
+        Object.keys(params)
+          .filter((key) => params[key]) // Only include parameters with values
+          .map(
+            (key) =>
+              `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+          )
+          .join("&");
 
-      const url = `${newsUrl}${endpoint}?${queryString}`;
+      const newsApiUrl = `${newsUrl}${endpoint}?${queryString(newsApiParams)}`;
+      const guardianApiUrl = `${guardianUrl}&${queryString(guardianApiParams)}`;
 
-      const response = await axios.get(url);
+      let newsData = [];
+      let guardianData = [];
 
-      setNews(response.data.articles);
+      try {
+        const newsApiResponse = await axios.get(newsApiUrl);
+        newsData = newsApiResponse.data.articles.map((article) => ({
+          ...article,
+          apiSource: "newsApi",
+        }));
+      } catch (error) {
+        console.error("Error fetching news from newsApi:", error);
+      }
 
-      console.log("response", response.data.articles);
+      try {
+        const guardianApiResponse = await axios.get(guardianApiUrl);
+        guardianData = guardianApiResponse.data.response.results.map(
+          (result) => ({
+            ...result,
+            apiSource: "guardianApi",
+          })
+        );
+      } catch (error) {
+        console.error("Error fetching news from guardianApi:", error);
+      }
+
+      const combinedResponse = [...newsData, ...guardianData];
+
+      setNews(combinedResponse);
+      console.log("news", combinedResponse);
     } catch (error) {
       console.error("Error fetching news:", error);
     }
@@ -82,8 +108,6 @@ const NewsProvider = ({ children }) => {
     fetchNews();
   }, [formData]);
 
-  // Create the context value object
-
   // Provide the context value to the child components
   return (
     <NewsContext.Provider
@@ -91,9 +115,8 @@ const NewsProvider = ({ children }) => {
         setFormData,
         fetchNews,
         news,
-        formRefs,
+        formData,
         updateFormData,
-
         retrieveFormDataFromLocalStorage,
       }}
     >
