@@ -10,7 +10,7 @@ import SearchBox from "./components/SearchBox/SearchBox";
 
 function App() {
   return (
-    <div className="w-full h-full flex justify-center  bg-gray-100 dark:bg-bg-xiketic">
+    <div className="w-full h-full flex justify-center dark:bg-bg-xiketic">
       <div className="relative lg:w-3/4 h-full">
         <Header />
         {/* <SideBar /> */}

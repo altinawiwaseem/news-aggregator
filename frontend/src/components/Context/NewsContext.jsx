@@ -68,8 +68,6 @@ const NewsProvider = ({ children }) => {
 
       const url = `${newsUrl}${endpoint}?${queryString}`;
 
-      console.log("first", url);
-
       const response = await axios.get(url);
 
       setNews(response.data.articles);
