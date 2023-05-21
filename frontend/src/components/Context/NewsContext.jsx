@@ -8,8 +8,6 @@ const NewsContext = createContext();
 const NewsProvider = ({ children }) => {
   const [news, setNews] = useState([]);
 
-  const [articles, setArticles] = useState([]);
-
   const [formData, setFormData] = useState(retrieveFormDataFromLocalStorage());
 
   const updateFormData = (name, value) => {
@@ -28,8 +26,8 @@ const NewsProvider = ({ children }) => {
     }
   }
 
-  const newsApiKey = process.env.REACT_APP_MEWS_API_KEY;
-  const newsUrl = process.env.REACT_APP_MEWS_API_URL;
+  const newsApiKey = process.env.REACT_APP_NEWS_API_KEY;
+  const newsUrl = process.env.REACT_APP_NEWS_API_URL;
 
   const guardianApiKey = process.env.REACT_APP_GUARDIAN_API_KEY;
 
@@ -47,7 +45,8 @@ const NewsProvider = ({ children }) => {
         from: formData.from,
         to: formData.to,
         language: formData.language,
-        apiKey: "dfa44fd0d3e04a7c8078ca422d98b83a",
+        pageSize: 10,
+        apiKey: newsApiKey,
       };
       const guardianApiParams = {
         q: formData.q,
@@ -74,17 +73,10 @@ const NewsProvider = ({ children }) => {
       let guardianData = [];
 
       try {
-        const newsApiResponse = await axios.get(newsApiUrl);
-        newsData = newsApiResponse.data.articles.map((article) => ({
-          ...article,
-          apiSource: "newsApi",
-        }));
-      } catch (error) {
-        console.error("Error fetching news from newsApi:", error);
-      }
-
-      try {
         const guardianApiResponse = await axios.get(guardianApiUrl);
+
+        console.log("guar", guardianApiResponse);
+
         guardianData = guardianApiResponse.data.response.results.map(
           (result) => ({
             ...result,
@@ -93,6 +85,19 @@ const NewsProvider = ({ children }) => {
         );
       } catch (error) {
         console.error("Error fetching news from guardianApi:", error);
+      }
+
+      try {
+        const newsApiResponse = await axios.get(newsApiUrl);
+
+        console.log("newA", newsApiResponse);
+
+        newsData = newsApiResponse.data.articles.map((article) => ({
+          ...article,
+          apiSource: "newsApi",
+        }));
+      } catch (error) {
+        console.error("Error fetching news from newsApi:", error);
       }
 
       const combinedResponse = [...newsData, ...guardianData];
