@@ -6,8 +6,6 @@ import { languages } from "../../utili/languges";
 function SearchBox() {
   const { updateFormData, fetchNews, formData } = useContext(NewsContext);
 
-  const [expanded, setExpanded] = useState(false);
-
   const defaultLanguagesOption = "en";
 
   const formRefs = {
@@ -20,7 +18,6 @@ function SearchBox() {
     to: useRef(""),
     language: useRef(""),
   };
-  console.log("formData", formData);
 
   const countries = Object.entries(countriesList.countries).map(
     ([code, country]) => ({
@@ -39,10 +36,7 @@ function SearchBox() {
     const language = languages.find((lang) => lang.code === code);
     return language ? language.name : "";
   }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  function saveFormDataToLocalStorage() {
     const formData = {};
     Object.keys(formRefs).forEach((name) => {
       formData[name] = formRefs[name]?.current?.value || "";
@@ -60,9 +54,20 @@ function SearchBox() {
 
     localStorage.setItem("formData", JSON.stringify(formDataObj));
     setSelectedLanguage(formData.language);
+  }
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    saveFormDataToLocalStorage();
 
     fetchNews();
   };
+
+  useEffect(() => {
+    const existingData = localStorage.getItem("formData");
+    if (!existingData) {
+      saveFormDataToLocalStorage();
+    }
+  }, []);
 
   return (
     <form onSubmit={handleSubmit}>
