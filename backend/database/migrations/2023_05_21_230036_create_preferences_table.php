@@ -10,7 +10,7 @@ class CreatePreferencesTable extends Migration
     {
         Schema::create('preferences', function (Blueprint $table) {
             $table->id();
-            $table->string('search')->nullable();
+            $table->string('q')->nullable();
             $table->string('category')->nullable();
             $table->string('country')->nullable();
             $table->string('language')->nullable();

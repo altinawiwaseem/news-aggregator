@@ -12,8 +12,8 @@ function Home() {
   return (
     <div>
       <div>
+        <PreferencesDashboard />
         <News />
-        {/*  <PreferencesDashboard /> */}
         {/* <BannerTiles /> */}
         {/*   <HomepageContent /> */}
         {/* <Footer /> */}

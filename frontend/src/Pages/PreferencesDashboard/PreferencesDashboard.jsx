@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
+import countriesList from "countries-list";
 import { AiOutlineClose } from "react-icons/ai";
+import { languages } from "../../utili/languges";
+import { NewsContext } from "../../components/Context/NewsContext";
 
 function PreferencesDashboard() {
+  const { inputStyle } = useContext(NewsContext);
   const [preferences, setPreferences] = useState([]);
-
-  console.log("prefe", preferences);
 
   const searchRef = useRef("");
   const categoryRef = useRef("");
@@ -15,6 +17,18 @@ function PreferencesDashboard() {
 
   const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL;
 
+  const countries = Object.entries(countriesList.countries).map(
+    ([code, country]) => ({
+      code,
+      name: country.name,
+    })
+  );
+
+  function getLanguageName(code) {
+    const language = languages.find((lang) => lang.code === code);
+    return language ? language.name : "";
+  }
+
   const getPreferencesFromDatabase = () => {
     axios
       .get(`${baseUrl}/api/preferences`)
@@ -23,7 +37,6 @@ function PreferencesDashboard() {
         const storedPreferences = JSON.parse(
           localStorage.getItem("preferences")
         );
-        console.log("databasePreferences", databasePreferences);
 
         let preferences = {};
 
@@ -44,7 +57,7 @@ function PreferencesDashboard() {
 
         // Update preferences with database values
         databasePreferences.forEach((preference) => {
-          const fields = ["search", "category", "country", "language", "tag"];
+          const fields = ["q", "category", "country", "language", "tag"];
           fields.forEach((field) => {
             if (preference[field]) {
               if (!preferences.hasOwnProperty(field)) {
@@ -79,7 +92,7 @@ function PreferencesDashboard() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const search = searchRef.current.value;
+    const q = searchRef.current.value;
     const category = categoryRef.current.value;
     const country = countryRef.current.value;
     const language = languageRef.current.value;
@@ -88,7 +101,7 @@ function PreferencesDashboard() {
     // Add new preference to Laravel backend
     axios
       .post(`${baseUrl}/api/preferences`, {
-        search,
+        q,
         category,
         country,
         language,
@@ -107,69 +120,89 @@ function PreferencesDashboard() {
   }, []);
 
   return (
-    <div className="flex flex-col lg:flex-row ">
-      <div className="w-full lg:w-1/3 p-4">
+    <div className="flex flex-col md:flex-row h-full gap-4">
+      <div className="w-full lg:w-1/3 p-4 h-full">
         <h2 className="text-2xl mb-4">Control Preferences</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="search" className="block mb-2 font-medium">
-              Key Words
-            </label>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <div className=" mb-4">
             <input
+              placeholder="Key words"
               type="text"
-              id="search"
-              name="search"
+              id="q"
+              name="q"
               ref={searchRef}
-              className="border border-gray-300 rounded-md p-2 w-full"
+              className={`${inputStyle}`}
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="category" className="block mb-2 font-medium">
-              Category
-            </label>
             <input
+              placeholder="Category"
               type="text"
               id="category"
               name="category"
               ref={categoryRef}
-              className="border border-gray-300 rounded-md p-2 w-full"
+              className={`${inputStyle}`}
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="country" className="block mb-2 font-medium">
-              Country
-            </label>
             <input
-              type="text"
-              id="country"
-              name="country"
-              ref={countryRef}
-              className="border border-gray-300 rounded-md p-2 w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="language" className="block mb-2 font-medium">
-              Language
-            </label>
-            <input
-              type="text"
-              id="language"
-              name="language"
-              ref={languageRef}
-              className="border border-gray-300 rounded-md p-2 w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="tag" className="block mb-2 font-medium">
-              Tag
-            </label>
-            <input
+              placeholder="Tag"
               type="text"
               id="tag"
               name="tag"
               ref={tagRef}
-              className="border border-gray-300 rounded-md p-2 w-full"
+              className={`${inputStyle}`}
             />
+          </div>
+          <div className="relative inline-block w-full mb-4">
+            <select
+              className={`${inputStyle}`}
+              id="country"
+              defaultValue={countryRef || ""}
+              name="country"
+              ref={countryRef}
+            >
+              <option value="">Country</option>
+              {countries.map((country) => (
+                <option key={country.code} value={country.code}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-600">
+              <svg
+                className="w-4 h-4 fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 13l-6-6h12l-6 6z" />
+              </svg>
+            </div>
+          </div>
+          <div className="relative inline-block w-full">
+            <select
+              className={`${inputStyle}`}
+              defaultValue={languageRef || ""}
+              id="language"
+              name="language"
+              ref={languageRef}
+            >
+              <option value="en">{getLanguageName("en")}</option>
+              {languages.map((language) => (
+                <option key={language.code} value={language.code}>
+                  {language.name}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-600">
+              <svg
+                className="w-4 h-4 fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 13l-6-6h12l-6 6z" />
+              </svg>
+            </div>
           </div>
 
           <button
@@ -189,7 +222,8 @@ function PreferencesDashboard() {
             return (
               <div key={key} className="preference-block  h-1/5">
                 <hr />
-                <h2 className="mb-2">{key}</h2>
+                <h2 className="mb-2">{`${key === "q" ? "Search" : key}`}</h2>
+
                 <div className="tags flex gap-4">
                   {values.map((value) => (
                     <div

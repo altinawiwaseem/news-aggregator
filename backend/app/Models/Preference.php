@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Preference extends Model
 {
     protected $fillable = [
-    'search',
+    'q',
     'category',
     'country',
     'language',
@@ -18,7 +18,7 @@ class Preference extends Model
   
 
     public static $rules = [
-        'search' => 'nullable',
+        'q' => 'nullable',
         'category' => 'nullable',
         'country' => 'nullable',
         'language' => 'nullable',

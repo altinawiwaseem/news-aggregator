@@ -4,7 +4,8 @@ import countriesList from "countries-list";
 import { languages } from "../../utili/languges";
 
 function SearchBox() {
-  const { updateFormData, fetchNews, formData } = useContext(NewsContext);
+  const { updateFormData, fetchNews, formData, inputStyle } =
+    useContext(NewsContext);
 
   const defaultLanguagesOption = "en";
 
@@ -77,14 +78,14 @@ function SearchBox() {
             name="q"
             type="text"
             defaultValue={formData.q || ""}
-            className={`dark:bg-input-space-cadet peer w-full pb-1 pt-3 px-3 text-base rounded-lg border border-gray-400 focus:border-red-400 text-gray-600 bg-white focus:outline-none focus:ring-0 appearance-none transition-colors duration-300 `}
+            className={`${inputStyle}`}
             ref={formRefs.q}
             placeholder="Keywords or phrases"
           />
         </div>
         <div className="sm:flex sm:gap-4 ">
           <input
-            className={`peer w-full pb-1 pt-3 px-3 text-base rounded-lg border border-gray-400 focus:border-red-400 text-gray-600 bg-white focus:outline-none focus:ring-0 appearance-none transition-colors duration-300 dark:bg-input-space-cadet`}
+            className={`${inputStyle}`}
             type="text"
             defaultValue={formData.category || ""}
             name="category"
@@ -93,7 +94,7 @@ function SearchBox() {
           />
 
           <input
-            className={`dark:bg-input-space-cadet peer w-full pb-1 pt-3 px-3 text-base rounded-lg border border-gray-400 focus:border-red-400 text-gray-600 bg-white focus:outline-none focus:ring-0 appearance-none transition-colors duration-300 `}
+            className={`${inputStyle}`}
             type="text"
             name="searchIn"
             ref={formRefs.searchIn}
@@ -101,7 +102,7 @@ function SearchBox() {
             placeholder="Search in (title, description, content)"
           />
           <input
-            className={`dark:bg-input-space-cadet peer w-full pb-1 pt-3 px-3 text-base rounded-lg border border-gray-400 focus:border-red-400 text-gray-600 bg-white focus:outline-none focus:ring-0 appearance-none transition-colors duration-300 `}
+            className={`${inputStyle}`}
             type="text"
             ref={formRefs.tag}
             name="tag"
@@ -111,7 +112,7 @@ function SearchBox() {
         </div>
         <div className="sm:flex sm:gap-4">
           <input
-            className={`dark:bg-input-space-cadet peer w-full pb-1 pt-3 px-3 text-base rounded-lg border border-gray-400 focus:border-red-400 text-gray-600 bg-white focus:outline-none focus:ring-0 appearance-none transition-colors duration-300 `}
+            className={`${inputStyle}`}
             type="text"
             defaultValue={formData.from || ""}
             ref={formRefs.from}
@@ -119,7 +120,7 @@ function SearchBox() {
             placeholder="From (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)"
           />
           <input
-            className={`dark:bg-input-space-cadet peer w-full pb-1 pt-3 px-3 text-base rounded-lg border border-gray-400 focus:border-red-400 text-gray-600 bg-white focus:outline-none focus:ring-0 appearance-none transition-colors duration-300 `}
+            className={`${inputStyle}`}
             type="text"
             defaultValue={formData.to || ""}
             ref={formRefs.to}
@@ -130,7 +131,7 @@ function SearchBox() {
         <div className="sm:flex sm:gap-4 items-center">
           <div className="relative inline-block w-full">
             <select
-              className={`dark:bg-input-space-cadet peer w-full pb-1 pt-3 px-3 text-base rounded-lg border border-gray-400 focus:border-red-400 text-gray-600 bg-white focus:outline-none focus:ring-0 appearance-none transition-colors duration-300`}
+              className={`${inputStyle}`}
               id="country"
               defaultValue={formData.country || ""}
               name="country"

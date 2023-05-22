@@ -16,7 +16,7 @@ class PreferenceController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'search' => 'nullable|string|max:255',
+            'q' => 'nullable|string|max:255',
             'category' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
             'language' => 'nullable|string|max:255',

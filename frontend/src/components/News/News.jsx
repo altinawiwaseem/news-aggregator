@@ -4,10 +4,20 @@ import countriesList from "countries-list";
 import { languages } from "../../utili/languges";
 import NewsCard from "../NewsCard/NewsCard";
 import SearchBox from "../SearchBox/SearchBox";
+import Pagination from "../Pagination/Pagination";
 
 const News = () => {
-  const { news } = useContext(NewsContext);
+  const { news, page, setPage, fetchNews } = useContext(NewsContext);
 
+  const handleNextPage = (page) => {
+    setPage(page);
+    fetchNews();
+  };
+
+  const handlePrevPage = (page) => {
+    setPage(page);
+    fetchNews();
+  };
   return (
     <>
       <SearchBox />
@@ -16,6 +26,12 @@ const News = () => {
 
         {news && news.map((post, i) => <NewsCard post={post} key={i} i={i} />)}
       </div>
+      <Pagination
+        currentPage={page}
+        totalPages={10}
+        onNextPage={handleNextPage}
+        onPrevPage={handlePrevPage}
+      />
     </>
   );
 };

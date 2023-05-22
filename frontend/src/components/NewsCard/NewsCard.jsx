@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const NewsCard = ({ post, i }) => {
   let {
@@ -62,7 +63,12 @@ const NewsCard = ({ post, i }) => {
       key={i}
       className="h-full w-full transform transition-transform duration-300 hover:scale-105 dark:shadow-6xl "
     >
-      <article className="flex h-full w-full max-w-xl flex-col items-start justify-between rounded-md overflow-hidden shadow-lg dark:text-white cursor-pointer">
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href={post?.url}
+        className="flex h-full w-full max-w-xl flex-col items-start justify-between rounded-md overflow-hidden shadow-lg dark:text-white cursor-pointer"
+      >
         {thumbnail && (
           <img
             src={thumbnail}
@@ -106,7 +112,8 @@ const NewsCard = ({ post, i }) => {
             </p>
           </div>
         </div>
-      </article>
+      </a>
+      {}
     </div>
   );
 };

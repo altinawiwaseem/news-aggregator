@@ -7,10 +7,7 @@ const NewsContext = createContext();
 const NewsProvider = ({ children }) => {
   const [news, setNews] = useState([]);
   const [newsPreferences, setNewsPreferences] = useState([]);
-  const [page, setPage] = useState(1);
   const [formData, setFormData] = useState(retrieveFormDataFromLocalStorage());
-
-  console.log("page", page);
 
   const updateFormData = (name, value) => {
     setFormData((prevFormData) => ({
@@ -31,13 +28,13 @@ const NewsProvider = ({ children }) => {
     }
   }
 
-  const newsApiKey = process.env.REACT_APP_NEWS_API_KEY;
+  const newsApiKey = "process.env.REACT_APP_NEWS_API_KEY";
   const newsBaseUrl = process.env.REACT_APP_NEWS_API_URL;
 
-  const guardianApiKey = process.env.REACT_APP_GUARDIAN_API_KEY;
+  const guardianApiKey = "process.env.REACT_APP_GUARDIAN_API_KEY";
   const guardianBaseUrl = process.env.REACT_APP_GUARDIAN_API_URL;
 
-  const newYorkTimesApiKey = process.env.REACT_APP_NEW_YORK_TIMES_API_KEY;
+  const newYorkTimesApiKey = "process.env.REACT_APP_NEW_YORK_TIMES_API_KEY";
 
   const newYorkTimesBaseUrl = process.env.REACT_APP_NEW_YORK_TIMES_API_URL;
 
@@ -75,7 +72,7 @@ const NewsProvider = ({ children }) => {
 
       const preferences = JSON.parse(localStorage.getItem("preferences"));
 
-      const queryString = (params, apiSource, page, apiKey) => {
+      const queryString = (params, apiSource, apiKey) => {
         const searchKeywords = params.q;
         const hasMultipleKeywords =
           searchKeywords && searchKeywords.includes(" ");
@@ -121,7 +118,6 @@ const NewsProvider = ({ children }) => {
               return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
             }
           })
-          .concat(`page=${encodeURIComponent(page)}`)
           .concat(
             apiSource === "guardianApi" || apiSource === "newYorkApi"
               ? `api-key=${encodeURIComponent(apiKey)}`
@@ -130,13 +126,12 @@ const NewsProvider = ({ children }) => {
           .join("&");
       };
 
-      async function fetchData(baseUrl, queryParams, apiSource, page, apiKey) {
-        console.log("queryParams", queryParams);
+      async function fetchData(baseUrl, queryParams, apiSource, apiKey) {
+        console.log(queryParams);
         try {
           const apiUrl = `${baseUrl}${queryString(
             queryParams,
             apiSource,
-            page,
             apiKey
           )}`;
 
@@ -172,7 +167,6 @@ const NewsProvider = ({ children }) => {
         newsBaseUrl,
         newsApiParams,
         "newsApi",
-        page,
         newsApiKey
       );
 
@@ -180,7 +174,6 @@ const NewsProvider = ({ children }) => {
         guardianBaseUrl,
         guardianApiParams,
         "guardianApi",
-        page,
         guardianApiKey
       );
 
@@ -188,7 +181,6 @@ const NewsProvider = ({ children }) => {
         newYorkTimesBaseUrl,
         newYorkTimesApiParams,
         "newYorkApi",
-        page,
         newYorkTimesApiKey
       );
 
@@ -196,7 +188,6 @@ const NewsProvider = ({ children }) => {
         newsBaseUrl,
         preferences,
         "newsApi",
-        page,
         newsApiKey
       );
 
@@ -204,7 +195,6 @@ const NewsProvider = ({ children }) => {
         guardianBaseUrl,
         preferences,
         "guardianApi",
-        page,
         guardianApiKey
       );
 
@@ -212,7 +202,6 @@ const NewsProvider = ({ children }) => {
         newYorkTimesBaseUrl,
         preferences,
         "newYorkApi",
-        page,
         newYorkTimesApiKey
       );
 
@@ -244,8 +233,6 @@ const NewsProvider = ({ children }) => {
   return (
     <NewsContext.Provider
       value={{
-        page,
-        setPage,
         inputStyle,
         setFormData,
         fetchNews,
