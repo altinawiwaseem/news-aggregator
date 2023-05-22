@@ -29,9 +29,13 @@ Route::post('/logout', [UserController::class, 'logout']);
 Route::post("preferences", [PreferenceController::class, "create"]);
 
 Route::get('/preferences', [PreferenceController::class, 'index']);
+
 Route::post('/preferences', [PreferenceController::class, 'store']);
+
 Route::put('/preferences/{id}', [PreferenceController::class, 'update']);
-Route::delete('/preferences/{id}', [PreferenceController::class, 'destroy']);
+
+Route::delete('/preferences', [PreferenceController::class, 'destroy']);
+
 
 
 

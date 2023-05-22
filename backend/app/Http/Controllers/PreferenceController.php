@@ -27,37 +27,42 @@ class PreferenceController extends Controller
             return response()->json($validator->errors(), 400);
         }
     
-        $preference = Preference::create($request->all());
+        $preferenceData = $validator->validated();
+        $hasAtLeastOneValue = $this->hasAtLeastOneValue($preferenceData);
+    
+        if (!$hasAtLeastOneValue) {
+            return response()->json(['message' => 'At least one field must have a value.'], 400);
+        }
+    
+        $preference = Preference::create($preferenceData);
     
         return response()->json($preference, 201);
     }
     
-    public function update(Request $request, $id)
+    private function hasAtLeastOneValue($data)
     {
-        $validator = Validator::make($request->all(), [
-            'search' => 'nullable|string|max:255',
-            'category' => 'nullable|string|max:255',
-            'country' => 'nullable|string|max:255',
-            'language' => 'nullable|string|max:255',
-            'tag' => 'nullable|string|max:255',
-        ]);
-    
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+        foreach ($data as $value) {
+            if (!is_null($value)) {
+                return true;
+            }
         }
     
-        $preference = Preference::findOrFail($id);
-        $preference->update($request->all());
-    
-        return response()->json($preference, 200);
+        return false;
     }
     
+    
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $preference = Preference::findOrFail($id);
-        $preference->delete();
+        $key = $request->input('key');
+        $value = $request->input('value');
 
-        return response()->json(null, 204);
+        // Delete the value inside the specified column
+        Preference::where($key, $value)->update([$key => null]);
+
+        
+
+        return response()->json(['message' => 'Preference deleted successfully']);
     }
+
 }
