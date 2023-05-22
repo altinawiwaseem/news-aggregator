@@ -1,74 +1,88 @@
-import React, { useState } from "react";
-import { HiMenuAlt3 } from "react-icons/hi";
-import { MdOutlineDashboard } from "react-icons/md";
-import { RiSettings4Line } from "react-icons/ri";
-import { TbReportAnalytics } from "react-icons/tb";
-import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
-import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import React, { useContext, useRef, useState } from "react";
+import { NewsContext } from "../Context/NewsContext";
 
-const SideBar = () => {
-  const menus = [
-    { name: "dashboard", link: "/", icon: MdOutlineDashboard },
-    { name: "user", link: "/", icon: AiOutlineUser },
-    { name: "messages", link: "/", icon: FiMessageSquare },
-    { name: "analytics", link: "/", icon: TbReportAnalytics, margin: true },
-    { name: "File Manager", link: "/", icon: FiFolder },
-    { name: "Cart", link: "/", icon: FiShoppingCart },
-    { name: "Saved", link: "/", icon: AiOutlineHeart, margin: true },
-    { name: "Setting", link: "/", icon: RiSettings4Line },
-  ];
-  const [open, setOpen] = useState(true);
+function Sidebar() {
+  const { news } = useContext(NewsContext);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const sidebarRef = useRef(null);
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleClickOutside = (event) => {
+    if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
   return (
-    <section className="flex gap-6">
-      <div
-        className={`bg-[#0e0e0e] min-h-screen ${
-          open ? "w-72" : "w-16"
-        } duration-500 text-gray-100 px-4`}
+    <div>
+      <button
+        className="btn btn-primary w-2/5 self-center bg-blue-600 m-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+        onClick={toggleSidebar}
       >
-        <div className="py-3 flex justify-end">
-          <HiMenuAlt3
-            size={26}
-            className="cursor-pointer"
-            onClick={() => setOpen(!open)}
-          />
-        </div>
-        <div className="mt-4 flex flex-col gap-4 relative">
-          {menus?.map((menu, i) => (
-            <Link
-              to={menu?.link}
-              key={i}
-              className={` ${
-                menu?.margin && "mt-5"
-              } group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
-            >
-              <div>{React.createElement(menu?.icon, { size: "20" })}</div>
-              <h2
-                style={{
-                  transitionDelay: `${i + 3}00ms`,
-                }}
-                className={`whitespace-pre duration-500 ${
-                  !open && "opacity-0 translate-x-28 overflow-hidden"
-                }`}
-              >
-                {menu?.name}
-              </h2>
-              <h2
-                className={`${
-                  open && "hidden"
-                } absolute left-48 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit  `}
-              >
-                {menu?.name}
-              </h2>
-            </Link>
-          ))}
-        </div>
-      </div>
-      <div className="m-3 text-xl text-gray-900 font-semibold">
-        REACT TAILWIND
-      </div>
-    </section>
-  );
-};
+        Open Sidebar
+      </button>
 
-export default SideBar;
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center"
+          onClick={handleClickOutside}
+        >
+          <div
+            ref={sidebarRef}
+            className="flex flex-col bg-white w-full p-5 sm:px-20 gap-2 rounded-md drop-shadow-lg relative dark:bg-bg-xiketic dark:shadow-6xl"
+          >
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              onClick={toggleSidebar}
+            >
+              <svg
+                className="w-6 h-6 fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M13.414 12l3.536 3.536-1.414 1.414L12 13.414l-3.536 3.536-1.414-1.414L10.586 12 7.05 8.464l1.414-1.414L12 10.586l3.536-3.536 1.414 1.414L13.414 12z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+
+            <form>
+              <div className="relative flex w-full gap-2">
+                <input
+                  name="q"
+                  type="text"
+                  defaultValue={""}
+                  className={`dark:bg-input-space-cadet peer w-full pb-1 pt-3 px-3 text-base rounded-lg border border-gray-400 focus:border-red-400 text-gray-600 bg-white focus:outline-none focus:ring-0 appearance-none transition-colors duration-300 `}
+                  placeholder="Keywords or phrases"
+                />
+              </div>
+
+              <div className="sm:flex sm:gap-4 ">
+                {/* Rest of the input fields */}
+              </div>
+
+              <div className="sm:flex sm:gap-4 items-center">
+                {/* Rest of the input fields */}
+              </div>
+
+              <button
+                className="btn btn-primary w-2/5 self-center bg-blue-600 m-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+                type="submit"
+              >
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default Sidebar;

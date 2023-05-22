@@ -4,13 +4,14 @@ import { Link } from "react-router-dom";
 // import OutsideAlerter from "../Alert/Alert";
 import { UserContext } from "../Context/UserContext";
 import { useNavigate } from "react-router-dom";
-import Login from "../Login/Login";
-import Register from "../Register/Register";
+
 //import Theme from "../Theme/Theme";
 import useDarkMode from "../DarkMode/DarkMode";
 
 //icons
 import { FaSun, FaMoon } from "react-icons/fa";
+import Register from "../../Pages/Register/Register";
+import Login from "../../Pages/Login/Login";
 
 function Header({ theme, setTheme }) {
   const {

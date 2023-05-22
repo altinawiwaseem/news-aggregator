@@ -2,11 +2,12 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 
 import Header from "./components/Header/Header";
-import Login from "./components/Login/Login";
-import Register from "./components/Register/Register";
-import Home from "./components/Home/Home";
+
 import SideBar from "./components/Sidebar/Sidebar";
 import SearchBox from "./components/SearchBox/SearchBox";
+import Register from "./Pages/Register/Register";
+import Login from "./Pages/Login/Login";
+import Home from "./Pages/Home/Home";
 
 function App() {
   return (

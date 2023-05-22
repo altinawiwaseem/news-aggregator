@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\NController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\PreferenceController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -24,6 +25,8 @@ Route::post("register", [UserController::class, "register"]);
 Route::post("login", [UserController::class, "login"]);
 
 Route::post('/logout', [UserController::class, 'logout']);
+
+Route::post("preferences", [PreferenceController::class, "create"]);
 
 
 
