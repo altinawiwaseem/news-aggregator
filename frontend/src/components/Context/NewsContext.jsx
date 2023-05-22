@@ -1,6 +1,5 @@
 import React, { createContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
-import qs from "qs";
 
 // Create a new context
 const NewsContext = createContext();
@@ -8,7 +7,6 @@ const NewsContext = createContext();
 // Create a NewsProvider component to wrap your app with the context provider
 const NewsProvider = ({ children }) => {
   const [news, setNews] = useState([]);
-
   const [formData, setFormData] = useState(retrieveFormDataFromLocalStorage());
 
   const updateFormData = (name, value) => {
@@ -28,7 +26,7 @@ const NewsProvider = ({ children }) => {
   }
 
   /* const newsApiKey = process.env.REACT_APP_NEWS_API_KEY; */
-  const newsApiKey = "02ab19593071412b97b5d1b963396217";
+  const newsApiKey = process.env.REACT_APP_NEWS_API_KEY;
   const newsBaseUrl = process.env.REACT_APP_NEWS_API_URL;
 
   const guardianApiKey = process.env.REACT_APP_GUARDIAN_API_KEY;
@@ -37,8 +35,6 @@ const NewsProvider = ({ children }) => {
   const newYorkTimesApiKey = process.env.REACT_APP_NEW_YORK_TIMES_API_KEY;
 
   const newYorkTimesBaseUrl = process.env.REACT_APP_NEW_YORK_TIMES_API_URL;
-
-  const [data, setData] = useState([]);
 
   const fetchNews = async () => {
     try {
@@ -75,63 +71,118 @@ const NewsProvider = ({ children }) => {
         "api-key": newYorkTimesApiKey,
       };
 
-      const queryString = (params) =>
+      /* const queryString = (params) =>
         Object.keys(params)
           .filter((key) => params[key] !== undefined && params[key] !== "") // Only include parameters with non-empty values
           .map(
             (key) =>
               `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
           )
+          .join("&"); */
+
+      const queryString = (params, apiSource) => {
+        const searchKeywords = params.search;
+        const hasMultipleKeywords =
+          searchKeywords && searchKeywords.includes(" ");
+
+        return Object.keys(params)
+          .filter((key) => {
+            const value = params[key];
+            return value !== undefined && value !== "";
+          })
+          .map((key) => {
+            const value = params[key];
+            if (key === "search" && hasMultipleKeywords) {
+              // Use AND operator for multiple search keywords
+              const keywords = value
+                .split(" ")
+                .map((keyword) => encodeURIComponent(keyword));
+              return `${encodeURIComponent(key)}=${keywords.join(" AND ")}`;
+            } else if (key === "category" && apiSource === "guardianApi") {
+              // Handle category parameter for The Guardian API
+              if (Array.isArray(value)) {
+                // Join multiple categories with AND operator
+                const joinedCategories = value
+                  .map((category) => encodeURIComponent(category))
+                  .join(" AND ");
+                return `${encodeURIComponent(key)}=${joinedCategories}`;
+              } else if (value.includes(" ")) {
+                // For The Guardian API, split categories and join with OR operator
+                const categories = value
+                  .split(" ")
+                  .map((category) => encodeURIComponent(category));
+                return `${encodeURIComponent(key)}=${categories.join(" OR ")}`;
+              }
+            } else if (Array.isArray(value)) {
+              // Join multiple values with AND operator if there is a space between words
+              const joinedValues = value.map((v) =>
+                v.includes(" ") ? v.split(" ").join(" AND ") : v.trim()
+              );
+              return `${encodeURIComponent(key)}=${encodeURIComponent(
+                joinedValues.join(" ")
+              )}`;
+            } else {
+              // Pass the trimmed word
+              return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+            }
+          })
           .join("&");
+      };
 
-      let newsData = [];
-      let guardianData = [];
-      let newYorkData = [];
+      async function fetchData(baseUrl, queryParams, apiSource) {
+        try {
+          const apiUrl = `${baseUrl}${queryString(queryParams, apiSource)}`;
 
-      try {
-        const NewYorkResponse = await fetch(
-          `${newYorkTimesBaseUrl}${queryString(newYorkTimesApiParams)}`
-        )
-          .then((data) => data.json())
-          .then((response) => {
-            newYorkData = response.response.docs.map((doc) => ({
+          console.log("apiUrl", apiUrl);
+          const response = await fetch(apiUrl);
+          const data = await response.json();
+
+          if (apiSource === "newsApi") {
+            console.log("newsApiresponse", data.articles);
+            return data?.articles?.map((article) => ({
+              ...article,
+              apiSource: "newsApi",
+            }));
+          } else if (apiSource === "guardianApi") {
+            console.log("guardianApiresponse", data);
+            return data?.response?.results?.map((result) => ({
+              ...result,
+              apiSource: "guardianApi",
+            }));
+          } else if (apiSource === "newYorkApi") {
+            return data?.response?.docs?.map((doc) => ({
               ...doc,
               apiSource: "newYorkApi",
             }));
-          });
-      } catch (err) {
-        console.log(err);
+          }
+        } catch (err) {
+          console.log(err);
+          return null;
+        }
       }
 
-      try {
-        const guardianApiUrl = `${guardianBaseUrl}&${queryString(
-          guardianApiParams
-        )}`;
-        const guardianApiResponse = await axios.get(guardianApiUrl);
+      const newsResponse = await fetchData(
+        newsBaseUrl,
+        newsApiParams,
+        "newsApi"
+      );
 
-        guardianData = guardianApiResponse.data.response.results.map(
-          (result) => ({
-            ...result,
-            apiSource: "guardianApi",
-          })
-        );
-      } catch (error) {
-        console.error("Error fetching news from guardianApi:", error);
-      }
+      const guardianResponse = await fetchData(
+        guardianBaseUrl,
+        guardianApiParams,
+        "guardianApi"
+      );
 
-      try {
-        const newsApiUrl = `${newsBaseUrl}?${queryString(newsApiParams)}`;
-        const newsApiResponse = await axios.get(newsApiUrl);
-
-        newsData = newsApiResponse.data.articles.map((article) => ({
-          ...article,
-          apiSource: "newsApi",
-        }));
-      } catch (error) {
-        console.error("Error fetching news from newsApi:", error);
-      }
-
-      const combinedResponse = [...newsData, ...guardianData, ...newYorkData];
+      const newYorkResponse = await fetchData(
+        newYorkTimesBaseUrl,
+        newYorkTimesApiParams,
+        "newYorkApi"
+      );
+      const combinedResponse = [
+        ...newsResponse,
+        ...guardianResponse,
+        ...newYorkResponse,
+      ];
 
       setNews(combinedResponse);
       console.log("news", combinedResponse);

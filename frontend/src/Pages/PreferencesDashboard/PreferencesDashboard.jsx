@@ -1,58 +1,76 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { AiOutlineClose } from "react-icons/ai";
 
 function PreferencesDashboard() {
   const [preferences, setPreferences] = useState([]);
-  const [editingPreference, setEditingPreference] = useState(null);
+
+  console.log("prefe", preferences);
 
   const searchRef = useRef("");
   const categoryRef = useRef("");
   const countryRef = useRef("");
   const languageRef = useRef("");
   const tagRef = useRef("");
-  const fromDateRef = useRef("");
-  const toDateRef = useRef("");
 
   const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL;
 
-  useEffect(() => {
-    // Fetch preferences from Laravel backend
+  const getPreferencesFromDatabase = () => {
     axios
       .get(`${baseUrl}/api/preferences`)
       .then((response) => {
-        setPreferences(response.data);
-        localStorage.setItem("preferences", JSON.stringify(response.data));
+        const databasePreferences = response.data;
+        const storedPreferences = JSON.parse(
+          localStorage.getItem("preferences")
+        );
+        console.log("databasePreferences", databasePreferences);
+
+        let preferences = {};
+
+        if (storedPreferences) {
+          preferences = storedPreferences;
+        }
+
+        // Check and delete preferences that exist in localStorage but not in the database
+        Object.keys(preferences).forEach((field) => {
+          if (
+            databasePreferences.some(
+              (preference) => preference[field] !== preferences[field]
+            )
+          ) {
+            delete preferences[field];
+          }
+        });
+
+        // Update preferences with database values
+        databasePreferences.forEach((preference) => {
+          const fields = ["search", "category", "country", "language", "tag"];
+          fields.forEach((field) => {
+            if (preference[field]) {
+              if (!preferences.hasOwnProperty(field)) {
+                preferences[field] = [preference[field]];
+              } else if (!preferences[field].includes(preference[field])) {
+                preferences[field].push(preference[field].trim());
+              }
+            }
+          });
+        });
+
+        localStorage.setItem("preferences", JSON.stringify(preferences));
+        setPreferences(preferences); // Assuming setPreferences is a function to update state with preferences
       })
       .catch((error) => {
         console.error("Error fetching preferences:", error);
       });
-  }, []);
-
-  const handleEdit = (preference) => {
-    setEditingPreference(preference);
-    searchRef.current.value = preference.search;
-    categoryRef.current.value = preference.category;
-    countryRef.current.value = preference.country;
-    languageRef.current.value = preference.language;
-    tagRef.current.value = preference.tag;
-    fromDateRef.current.value = preference.fromDate;
-    toDateRef.current.value = preference.toDate;
   };
 
-  const handleDelete = (preference) => {
+  const handleDelete = (key, value) => {
     // Delete preference from Laravel backend
     axios
-      .delete(`${baseUrl}/api/preferences/${preference.id}`)
-      .then((response) => {
-        setPreferences((prevPreferences) =>
-          prevPreferences.filter((p) => p.id !== preference.id)
-        );
-        localStorage.setItem(
-          "preferences",
-          JSON.stringify(preferences.filter((p) => p.id !== preference.id))
-        );
-        console.log("Preference deleted successfully:", response.data);
+      .delete(`${baseUrl}/api/preferences`, {
+        data: { key, value },
       })
+      .then(() => getPreferencesFromDatabase())
       .catch((error) => {
         console.error("Error deleting preference:", error);
       });
@@ -66,110 +84,30 @@ function PreferencesDashboard() {
     const country = countryRef.current.value;
     const language = languageRef.current.value;
     const tag = tagRef.current.value;
-    const fromDate = fromDateRef.current.value;
-    const toDate = toDateRef.current.value;
 
-    if (editingPreference) {
-      // Update existing preference in Laravel backend
-      axios
-        .put(`${baseUrl}/api/preferences/${editingPreference.id}`, {
-          search,
-          category,
-          country,
-          language,
-          tag,
-          fromDate,
-          toDate,
-        })
-        .then((response) => {
-          setPreferences((prevPreferences) =>
-            prevPreferences.map((p) =>
-              p.id === editingPreference.id
-                ? {
-                    ...p,
-                    search,
-                    category,
-                    country,
-                    language,
-                    tag,
-                    fromDate,
-                    toDate,
-                  }
-                : p
-            )
-          );
-          localStorage.setItem(
-            "preferences",
-            JSON.stringify(
-              preferences.map((p) =>
-                p.id === editingPreference.id
-                  ? {
-                      ...p,
-                      search,
-                      category,
-                      country,
-                      language,
-                      tag,
-                      fromDate,
-                      toDate,
-                    }
-                  : p
-              )
-            )
-          );
-          console.log("Preference updated successfully:", response.data);
-        })
-        .catch((error) => {
-          console.error("Error updating preference:", error);
-        });
-
-      searchRef.current.value = "";
-      categoryRef.current.value = "";
-      countryRef.current.value = "";
-      languageRef.current.value = "";
-      tagRef.current.value = "";
-      fromDateRef.current.value = "";
-      toDateRef.current.value = "";
-      setEditingPreference(null);
-    } else {
-      // Add new preference to Laravel backend
-      axios
-        .post(`${baseUrl}/api/preferences`, {
-          search,
-          category,
-          country,
-          language,
-          tag,
-          fromDate,
-          toDate,
-        })
-        .then((response) => {
-          setPreferences((prevPreferences) => [
-            ...prevPreferences,
-            response.data,
-          ]);
-          localStorage.setItem(
-            "preferences",
-            JSON.stringify([...preferences, response.data])
-          );
-          console.log("Preference added successfully:", response.data);
-        })
-        .catch((error) => {
-          console.error("Error adding preference:", error);
-        });
-
-      searchRef.current.value = "";
-      categoryRef.current.value = "";
-      countryRef.current.value = "";
-      languageRef.current.value = "";
-      tagRef.current.value = "";
-      fromDateRef.current.value = "";
-      toDateRef.current.value = "";
-    }
+    // Add new preference to Laravel backend
+    axios
+      .post(`${baseUrl}/api/preferences`, {
+        search,
+        category,
+        country,
+        language,
+        tag,
+      })
+      .then(() => getPreferencesFromDatabase())
+      .catch((error) => {
+        console.error("Error adding preference:", error);
+      });
+    event.target.reset();
   };
 
+  useEffect(() => {
+    // Fetch preferences from Laravel backend
+    getPreferencesFromDatabase();
+  }, []);
+
   return (
-    <div className="flex flex-col lg:flex-row">
+    <div className="flex flex-col lg:flex-row ">
       <div className="w-full lg:w-1/3 p-4">
         <h2 className="text-2xl mb-4">Control Preferences</h2>
         <form onSubmit={handleSubmit}>
@@ -233,42 +171,48 @@ function PreferencesDashboard() {
               className="border border-gray-300 rounded-md p-2 w-full"
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="fromDate" className="block mb-2 font-medium">
-              From Date
-            </label>
-            <input
-              type="date"
-              id="fromDate"
-              name="fromDate"
-              ref={fromDateRef}
-              className="border border-gray-300 rounded-md p-2 w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="toDate" className="block mb-2 font-medium">
-              To Date
-            </label>
-            <input
-              type="date"
-              id="toDate"
-              name="toDate"
-              ref={toDateRef}
-              className="border border-gray-300 rounded-md p-2 w-full"
-            />
-          </div>
+
           <button
             type="submit"
             className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
           >
-            {editingPreference ? "Update Preference" : "Save Preference"}
+            Save Preference
           </button>
         </form>
       </div>
 
-      <div className="w-full lg:w-2/3 p-4">
-        <h2 className="text-2xl mb-4">Preferences List</h2>
-      </div>
+      {preferences && (
+        <div className="w-full lg:w-2/3 p-4">
+          <h2 className="text-2xl mb-4">Preferences List</h2>
+          {Object.keys(preferences).map((key) => {
+            const values = preferences[key];
+            return (
+              <div key={key} className="preference-block  h-1/5">
+                <hr />
+                <h2 className="mb-2">{key}</h2>
+                <div className="tags flex gap-4">
+                  {values.map((value) => (
+                    <div
+                      className="relative inline-flex items-center justify-center flex-wrap "
+                      key={value}
+                    >
+                      <div className="tag border border-gray-600 rounded-lg px-3 py-1 mr-2">
+                        {value}
+                      </div>
+                      <span
+                        className="delete-icon text-xl font-extrabold text-red-600 cursor-pointer absolute -top-2 -right-1 px-1  text-gray-600"
+                        onClick={() => handleDelete(key, value)}
+                      >
+                        <AiOutlineClose />
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

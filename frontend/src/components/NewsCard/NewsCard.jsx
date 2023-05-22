@@ -44,7 +44,6 @@ const NewsCard = ({ post, i }) => {
       lead_paragraph: description = "",
       byline: { original: author = "" } = {},
     } = post);
-    console.log(thumbnail);
   }
 
   const [imageLoaded, setImageLoaded] = useState(false);

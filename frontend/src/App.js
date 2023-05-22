@@ -15,7 +15,6 @@ function App() {
       <div className="relative lg:w-3/4 h-full">
         <Header />
         {/* <SideBar /> */}
-        <SearchBox />
 
         <Routes>
           <Route path="/" element={<Home />} />
