@@ -15,8 +15,6 @@ class CreatePreferencesTable extends Migration
             $table->string('country')->nullable();
             $table->string('language')->nullable();
             $table->string('tag')->nullable();
-            $table->date('from_date')->nullable();
-            $table->date('to_date')->nullable();
             $table->timestamps();
         });
     }
