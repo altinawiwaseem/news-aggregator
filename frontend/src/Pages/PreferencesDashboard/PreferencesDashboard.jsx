@@ -6,7 +6,7 @@ import { languages } from "../../utili/languges";
 import { NewsContext } from "../../components/Context/NewsContext";
 
 function PreferencesDashboard() {
-  const { inputStyle } = useContext(NewsContext);
+  const { inputStyle, fetchNews } = useContext(NewsContext);
   const [preferences, setPreferences] = useState([]);
 
   const searchRef = useRef("");
@@ -84,6 +84,7 @@ function PreferencesDashboard() {
         data: { key, value },
       })
       .then(() => getPreferencesFromDatabase())
+      .then(() => fetchNews())
       .catch((error) => {
         console.error("Error deleting preference:", error);
       });
@@ -108,6 +109,9 @@ function PreferencesDashboard() {
         tag,
       })
       .then(() => getPreferencesFromDatabase())
+      .then(() => {
+        fetchNews();
+      })
       .catch((error) => {
         console.error("Error adding preference:", error);
       });

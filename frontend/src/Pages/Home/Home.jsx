@@ -13,7 +13,7 @@ function Home() {
     <div>
       <div>
         <PreferencesDashboard />
-        <News />
+
         {/* <BannerTiles /> */}
         {/*   <HomepageContent /> */}
         {/* <Footer /> */}

@@ -244,6 +244,7 @@ const NewsProvider = ({ children }) => {
   return (
     <NewsContext.Provider
       value={{
+        newsPreferences,
         page,
         setPage,
         inputStyle,

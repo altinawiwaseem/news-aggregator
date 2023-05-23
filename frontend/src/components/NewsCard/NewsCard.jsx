@@ -86,12 +86,9 @@ const NewsCard = ({ post, i }) => {
           <time dateTime={publishedAt} className="text-gray-500">
             {publishedAt}
           </time>
-          <a
-            href={post?.url}
-            className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-          >
+          <span className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
             {sourceName}
-          </a>
+          </span>
         </div>
         <div className="group relative p-3">
           <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600 dark:text-white">

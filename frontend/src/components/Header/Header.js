@@ -56,13 +56,6 @@ function Header({ theme, setTheme }) {
   return (
     <div className="dark:bg-bg-xiketic container ">
       <div className="mx-auto flex justify-between p-5 items-center">
-        <Link
-          className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
-          to="/"
-        >
-          <img className="w-24 sm:w-32" src="" alt="" />
-        </Link>
-
         {!user && (
           <button
             className="rounded  md:p-3 font-medium inline-flex sm:w-[15%] items-center justify-center bg-btn-majorelle-blue px-6 py-3 text-cyber-yellow hover:bg-han-purple "
@@ -73,60 +66,73 @@ function Header({ theme, setTheme }) {
         )}
         {/* when the user is signedIn */}
         {user && (
-          <div ref={buttonRef} className="relative ">
-            <img
-              onClick={handleDropMenu}
-              className="cursor-pointer  w-14 h-14 border-4 rounded-full  border-green-600 flex justify-center items-center "
-              alt=""
-              src={user?.avatar}
-            />
-            {showDropMenu && (
-              <div className="flex flex-col w-60 z-[100] text-white absolute right-2 top-20 font-poppins text-base">
-                <div className="dark:border-nav-raisin-black-2 w-full bg-text-ghost-white rounded border dark:bg-nav-raisin-black-2 dark:text-snow border-gray-300  focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out dark:hover:bg-nav-raisin-black-4 transition duration-200">
-                  <div
-                    className="flex justify-start items-center cursor-pointer"
-                    onClick={handleUserNavigateToUserProfileFromAvatar}
-                  >
-                    <img
-                      className="cursor-pointer w-14 h-14 border-4 border-green-600 rounded-full flex justify-center items-center"
-                      alt=""
-                      src={user?.avatar}
-                    />
-                    <div className="ml-5 ">
-                      {user?.firstName?.charAt(0).toUpperCase() +
-                        user?.firstName?.slice(1)}{" "}
+          <>
+            <div className="w-full">
+              <ul className="w-1/3 flex justify-around">
+                <li>
+                  <a href="news">News </a>{" "}
+                </li>
+
+                <li>
+                  <a href="dashboard">Dashboard</a>{" "}
+                </li>
+              </ul>
+            </div>
+            <div ref={buttonRef} className="relative ">
+              <img
+                onClick={handleDropMenu}
+                className="cursor-pointer  w-14 h-14 border-4 rounded-full  border-green-600 flex justify-center items-center "
+                alt=""
+                src={user?.avatar}
+              />
+              {showDropMenu && (
+                <div className="flex flex-col w-60 z-[100] text-white absolute right-2 top-20 font-poppins text-base">
+                  <div className="dark:border-nav-raisin-black-2 w-full bg-text-ghost-white rounded border dark:bg-nav-raisin-black-2 dark:text-snow border-gray-300  focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out dark:hover:bg-nav-raisin-black-4 transition duration-200">
+                    <div
+                      className="flex justify-start items-center cursor-pointer"
+                      onClick={handleUserNavigateToUserProfileFromAvatar}
+                    >
+                      <img
+                        className="cursor-pointer w-14 h-14 border-4 border-green-600 rounded-full flex justify-center items-center"
+                        alt=""
+                        src={user?.avatar}
+                      />
+                      <div className="ml-5 ">
+                        {user?.firstName?.charAt(0).toUpperCase() +
+                          user?.firstName?.slice(1)}{" "}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <Link
-                  className="dark:border-nav-raisin-black-3 w-full bg-text-ghost-white rounded border dark:bg-nav-raisin-black-4 dark:text-snow focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out 
+                  <Link
+                    className="dark:border-nav-raisin-black-3 w-full bg-text-ghost-white rounded border dark:bg-nav-raisin-black-4 dark:text-snow focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out 
                   dark:hover:bg-nav-raisin-black-2 transition duration-200"
-                  to="/mycertificates"
-                >
-                  My Certificates{" "}
-                </Link>
-                <div
-                  className="dark:border-nav-raisin-black-3 w-full bg-text-ghost-white dark:bg-nav-raisin-black-4 dark:text-snow rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out flex items-center cursor-pointer
+                    to="/dashboard"
+                  >
+                    Preferences Dashboard{" "}
+                  </Link>
+                  <div
+                    className="dark:border-nav-raisin-black-3 w-full bg-text-ghost-white dark:bg-nav-raisin-black-4 dark:text-snow rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out flex items-center cursor-pointer
                   dark:hover:bg-nav-raisin-black-2 transition duration-200"
-                  onClick={handleMode}
-                >
-                  <span>{darkTheme ? "Light Mode" : "Dark Mode"}</span>
-                  <span className="ml-5">
-                    {darkTheme ? <FaSun /> : <FaMoon />}
-                  </span>
-                </div>
+                    onClick={handleMode}
+                  >
+                    <span>{darkTheme ? "Light Mode" : "Dark Mode"}</span>
+                    <span className="ml-5">
+                      {darkTheme ? <FaSun /> : <FaMoon />}
+                    </span>
+                  </div>
 
-                <button
-                  onClick={handleLogout}
-                  className="dark:border-nav-raisin-black-2 w-full bg-text-ghost-white dark:bg-nav-raisin-black dark:text-snow rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer
+                  <button
+                    onClick={handleLogout}
+                    className="dark:border-nav-raisin-black-2 w-full bg-text-ghost-white dark:bg-nav-raisin-black dark:text-snow rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer
                   dark:hover:bg-red-500 transition duration-600
                   hover:bg-red-500 transition duration-600"
-                >
-                  Logout{handleLogout}
-                </button>
-              </div>
-            )}
-          </div>
+                  >
+                    Logout{handleLogout}
+                  </button>
+                </div>
+              )}
+            </div>{" "}
+          </>
         )}
       </div>
       {/* if the open login form is there show login form */}
