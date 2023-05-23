@@ -4,10 +4,12 @@ import countriesList from "countries-list";
 import { AiOutlineClose } from "react-icons/ai";
 import { languages } from "../../utili/languges";
 import { NewsContext } from "../../components/Context/NewsContext";
+import { style } from "../../utili/style.js";
 
 function PreferencesDashboard() {
-  const { inputStyle, fetchNews } = useContext(NewsContext);
-  const [preferences, setPreferences] = useState([]);
+  const { fetchNews, getPreferencesFromDatabase, preferences } =
+    useContext(NewsContext);
+  /* const [preferences, setPreferences] = useState([]); */
 
   const searchRef = useRef("");
   const categoryRef = useRef("");
@@ -29,7 +31,7 @@ function PreferencesDashboard() {
     return language ? language.name : "";
   }
 
-  const getPreferencesFromDatabase = () => {
+  /*  const getPreferencesFromDatabase = () => {
     axios
       .get(`${baseUrl}/api/preferences`)
       .then((response) => {
@@ -75,7 +77,7 @@ function PreferencesDashboard() {
       .catch((error) => {
         console.error("Error fetching preferences:", error);
       });
-  };
+  }; */
 
   const handleDelete = (key, value) => {
     // Delete preference from Laravel backend
@@ -135,7 +137,7 @@ function PreferencesDashboard() {
               id="q"
               name="q"
               ref={searchRef}
-              className={`${inputStyle}`}
+              className={`${style.dashboardInputStyle}`}
             />
           </div>
           <div className="mb-4">
@@ -145,7 +147,7 @@ function PreferencesDashboard() {
               id="category"
               name="category"
               ref={categoryRef}
-              className={`${inputStyle}`}
+              className={`${style.dashboardInputStyle}`}
             />
           </div>
           <div className="mb-4">
@@ -155,12 +157,12 @@ function PreferencesDashboard() {
               id="tag"
               name="tag"
               ref={tagRef}
-              className={`${inputStyle}`}
+              className={`${style.dashboardInputStyle}`}
             />
           </div>
           <div className="relative inline-block w-full mb-4">
             <select
-              className={`${inputStyle}`}
+              className={`${style.dashboardInputStyle}`}
               id="country"
               defaultValue={countryRef || ""}
               name="country"
@@ -185,7 +187,7 @@ function PreferencesDashboard() {
           </div>
           <div className="relative inline-block w-full">
             <select
-              className={`${inputStyle}`}
+              className={`${style.dashboardInputStyle}`}
               defaultValue={languageRef || ""}
               id="language"
               name="language"

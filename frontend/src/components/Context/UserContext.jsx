@@ -16,12 +16,6 @@ const UserContextProvider = ({ children }) => {
 
   const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL;
 
-  const inputStyleClass =
-    "w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500";
-
-  const buttonStyleClass =
-    "mb-3 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full";
-
   const login = async (formData) => {
     console.log(
       "url userContext 20",
@@ -35,9 +29,6 @@ const UserContextProvider = ({ children }) => {
       })
       .then((response) => {
         const { token, user } = response.data;
-        console.log("loginREsponse 32", response);
-        console.log("user login response", user);
-        console.log("token login response", token);
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
         setError("");
@@ -79,8 +70,6 @@ const UserContextProvider = ({ children }) => {
   return (
     <UserContext.Provider
       value={{
-        buttonStyleClass,
-        inputStyleClass,
         baseUrl,
         login,
         error,

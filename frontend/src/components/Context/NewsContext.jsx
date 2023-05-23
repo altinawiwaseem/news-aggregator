@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
 
 // Create a new context
@@ -9,27 +10,10 @@ const NewsProvider = ({ children }) => {
   const [newsPreferences, setNewsPreferences] = useState([]);
   const [page, setPage] = useState(1);
   const [formData, setFormData] = useState(retrieveFormDataFromLocalStorage());
+  const [preferences, setPreferences] = useState([]);
 
-  console.log("page", page);
-
-  const updateFormData = (name, value) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
-
-  const inputStyle =
-    "dark:bg-input-space-cadet peer w-full pb-1 pt-3 px-3 text-base rounded-lg border border-gray-400 focus:border-red-400 text-gray-600 bg-white focus:outline-none focus:ring-0 appearance-none transition-colors duration-300 ";
-
-  function retrieveFormDataFromLocalStorage() {
-    const formData = localStorage.getItem("formData");
-    if (formData) {
-      return JSON.parse(localStorage.getItem("formData"));
-    } else {
-      return [];
-    }
-  }
+  // Url & Api keys
+  const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL;
 
   const newsApiKey = process.env.REACT_APP_NEWS_API_KEY;
   const newsBaseUrl = process.env.REACT_APP_NEWS_API_URL;
@@ -40,6 +24,71 @@ const NewsProvider = ({ children }) => {
   const newYorkTimesApiKey = process.env.REACT_APP_NEW_YORK_TIMES_API_KEY;
 
   const newYorkTimesBaseUrl = process.env.REACT_APP_NEW_YORK_TIMES_API_URL;
+
+  // fetch preferences from database and set them to localStorage
+  const getPreferencesFromDatabase = () => {
+    axios
+      .get(`${baseUrl}/api/preferences`)
+      .then((response) => {
+        const databasePreferences = response.data;
+        const storedPreferences = JSON.parse(
+          localStorage.getItem("preferences")
+        );
+
+        let preferences = {};
+
+        if (storedPreferences) {
+          preferences = storedPreferences;
+        }
+
+        // Check and delete preferences that exist in localStorage but not in the database
+        Object.keys(preferences).forEach((field) => {
+          if (
+            databasePreferences.some(
+              (preference) => preference[field] !== preferences[field]
+            )
+          ) {
+            delete preferences[field];
+          }
+        });
+
+        // Update preferences with database values
+        databasePreferences.forEach((preference) => {
+          const fields = ["q", "category", "country", "language", "tag"];
+          fields.forEach((field) => {
+            if (preference[field]) {
+              if (!preferences.hasOwnProperty(field)) {
+                preferences[field] = [preference[field]];
+              } else if (!preferences[field].includes(preference[field])) {
+                preferences[field].push(preference[field].trim());
+              }
+            }
+          });
+        });
+
+        localStorage.setItem("preferences", JSON.stringify(preferences));
+        setPreferences(preferences); // Assuming setPreferences is a function to update state with preferences
+      })
+      .catch((error) => {
+        console.error("Error fetching preferences:", error);
+      });
+  };
+
+  const updateFormData = (name, value) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  function retrieveFormDataFromLocalStorage() {
+    const formData = localStorage.getItem("formData");
+    if (formData) {
+      return JSON.parse(localStorage.getItem("formData"));
+    } else {
+      return [];
+    }
+  }
 
   const fetchNews = async () => {
     try {
@@ -249,13 +298,14 @@ const NewsProvider = ({ children }) => {
         newsPreferences,
         page,
         setPage,
-        inputStyle,
         setFormData,
         fetchNews,
         news,
         formData,
         updateFormData,
         retrieveFormDataFromLocalStorage,
+        getPreferencesFromDatabase,
+        preferences,
       }}
     >
       {children}

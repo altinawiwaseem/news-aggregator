@@ -1,25 +1,19 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-/* import { UserContext } from "../Context/UserContext"; */
-//image
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { UserContext } from "../../components/Context/UserContext";
+import { style } from "../../utili/style.js";
+import { NewsContext } from "../../components/Context/NewsContext";
 
 export default function Login() {
-  const {
-    login,
-    error,
-    visible,
-    setVisible,
-    inputStyleClass,
-    buttonStyleClass,
-  } = useContext(UserContext);
+  const { login, error, visible, setVisible } = useContext(UserContext);
+  const { getPreferencesFromDatabase } = useContext(NewsContext);
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
     const formData = new FormData(event.target);
     login(formData);
+    getPreferencesFromDatabase();
   };
 
   return (
@@ -30,7 +24,7 @@ export default function Login() {
           <p className="text-red-600">{error}</p>
           <div class="relative mb-4">
             <input
-              className={inputStyleClass}
+              className={style.inputStyleClass}
               label="Email"
               placeholder=" E-mail"
               type="email"
@@ -40,7 +34,7 @@ export default function Login() {
           </div>
           <div className="relative mb-4">
             <input
-              className={inputStyleClass}
+              className={style.inputStyleClass}
               label="Password"
               placeholder="Password"
               type={visible ? "password" : "text"}
@@ -54,7 +48,7 @@ export default function Login() {
               {!visible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
             </span>
           </div>
-          <button className={buttonStyleClass} type="submit">
+          <button className={style.buttonStyleClass} type="submit">
             Login
           </button>
           <p className="register-link">

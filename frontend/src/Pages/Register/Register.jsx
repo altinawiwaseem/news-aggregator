@@ -2,12 +2,12 @@ import axios from "axios";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../components/Context/UserContext";
-//image
+
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { style } from "../../utili/style.js";
 
 export default function Register() {
-  const { inputStyleClass, visible, setVisible, baseUrl, buttonStyleClass } =
-    useContext(UserContext);
+  const { visible, setVisible, baseUrl } = useContext(UserContext);
 
   const navigate = useNavigate();
   /* getting the registration details from the user to register as a new user */
@@ -37,7 +37,7 @@ export default function Register() {
           <p className="title-font text-2xl mb-4">Register</p>
           <div className="relative mb-4">
             <input
-              className={inputStyleClass}
+              className={style.inputStyleClass}
               label="First Name"
               placeholder="First name"
               type="text"
@@ -48,7 +48,7 @@ export default function Register() {
           </div>
           <div class="relative mb-4">
             <input
-              className={inputStyleClass}
+              className={style.inputStyleClass}
               label="Last Name"
               placeholder="Last name"
               type="text"
@@ -59,7 +59,7 @@ export default function Register() {
           </div>
           <div className="relative mb-4">
             <input
-              className={inputStyleClass}
+              className={style.inputStyleClass}
               label="Email"
               placeholder=" E-mail"
               type="email"
@@ -70,7 +70,7 @@ export default function Register() {
           </div>
           <div class="relative mb-4">
             <input
-              className={inputStyleClass}
+              className={style.inputStyleClass}
               label="Password"
               placeholder="Password"
               type={visible ? "password" : "text"}
@@ -87,7 +87,7 @@ export default function Register() {
             </span>
           </div>
 
-          <button className={buttonStyleClass} type="submit">
+          <button className={style.buttonStyleClass} type="submit">
             Register
           </button>
 
