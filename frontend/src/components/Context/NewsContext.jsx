@@ -62,8 +62,10 @@ const NewsProvider = ({ children }) => {
       };
 
       const formatDate = (date) => {
-        const result = date.split("-").join("");
-        return result;
+        if (date) {
+          const result = date.split("-").join("");
+          return result;
+        }
       };
 
       const newYorkTimesApiParams = {

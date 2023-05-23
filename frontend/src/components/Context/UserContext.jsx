@@ -47,32 +47,21 @@ const UserContextProvider = ({ children }) => {
       });
   };
 
-  const handleLogout = async () => {
-    try {
-      await axios
-        .post(baseUrl + "/api/logout", {})
-        .then(() => {
-          setUser("");
-        })
-        .then(() => navigate("/login"))
-        .then(localStorage.clear("user"))
-        .then(localStorage.clear("preferences"));
-    } catch (error) {
-      console.log(error);
-    }
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login");
   };
+
   const localStorageUser = () => {
-    let user = localStorage.getItem("user");
-    console.log("first", user);
-    /* if (user) {
-      user = JSON.parse(localStorage.getItem("user"));
-    } */
+    const user = localStorage.getItem("user");
+
+    if (user) {
+      return setUser(JSON.parse(localStorage.getItem("user")));
+    }
 
     const token = localStorage.getItem("token");
 
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-    setUser(user);
 
     return;
   };
