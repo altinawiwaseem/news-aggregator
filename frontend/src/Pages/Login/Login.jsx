@@ -6,7 +6,8 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { UserContext } from "../../components/Context/UserContext";
 
 export default function Login() {
-  const { login, error, visible, setVisible } = useContext(UserContext);
+  const { login, error, visible, setVisible, inputStyleClass } =
+    useContext(UserContext);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -16,15 +17,14 @@ export default function Login() {
   };
 
   return (
-    /* overlay for register component on top of home component ---homepage */
-    <div className="fixed w-full h-full top-20 left-0 right-0  flex justify-center align-center z-10">
-      <form onSubmit={handleLogin}>
-        <div className="bg-nav-raisin-black-4 text-white rounded-lg p-8 flex flex-col m-3 m-10 font-poppins">
+    <div className=" flex justify-center items-center h-full ">
+      <form onSubmit={handleLogin} className="h-1/2">
+        <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg flex flex-col items-center bg-gray-200 h-full">
           <p className="title-font text-2xl mb-4">Login</p>
           <p>{error}</p>
           <div class="relative mb-4">
             <input
-              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-col"
+              className={inputStyleClass}
               label="Email"
               placeholder=" E-mail"
               type="email"
@@ -34,7 +34,7 @@ export default function Login() {
           </div>
           <div className="relative mb-4">
             <input
-              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              className={inputStyleClass}
               label="Password"
               placeholder="Password"
               type={visible ? "password" : "text"}
@@ -49,18 +49,14 @@ export default function Login() {
             </span>
           </div>
           <button
-            className="text-white bg-btn-majorelle-blue border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg mb-4"
+            className="mb-3 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full"
             type="submit"
           >
             Login
           </button>
           <p className="register-link">
             Don't have an account?{" "}
-            <Link
-              to="/register"
-              className="text-cyber-yellow "
-              variant="contained"
-            >
+            <Link to="/register" className="text-blue-600 " variant="contained">
               Register
             </Link>
           </p>

@@ -6,7 +6,7 @@ import { UserContext } from "../../components/Context/UserContext";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 export default function Register() {
-  const { handleShowLoginForm, visible, setVisible, baseUrl } =
+  const { inputStyleClass, visible, setVisible, baseUrl } =
     useContext(UserContext);
 
   const navigate = useNavigate();
@@ -30,15 +30,14 @@ export default function Register() {
   };
 
   return (
-    /* overlay for register component on top of home component ---homepage */
-    <div className=" flex justify-center align-center z-10">
+    <div className=" flex justify-center items-center h-full ">
       {/* registration form */}
       <form onSubmit={handleSubmit}>
-        <div className=" bg-nav-raisin-black-4 text-white rounded-lg p-8 flex flex-col m-3 m-10 font-poppins">
+        <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg flex flex-col items-center bg-gray-200">
           <p className="title-font text-2xl mb-4">Register</p>
           <div className="relative mb-4">
             <input
-              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              className={inputStyleClass}
               label="First Name"
               placeholder="First name"
               type="text"
@@ -49,7 +48,7 @@ export default function Register() {
           </div>
           <div class="relative mb-4">
             <input
-              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              className={inputStyleClass}
               label="Last Name"
               placeholder="Last name"
               type="text"
@@ -60,7 +59,7 @@ export default function Register() {
           </div>
           <div className="relative mb-4">
             <input
-              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              className={inputStyleClass}
               label="Email"
               placeholder=" E-mail"
               type="email"
@@ -71,7 +70,7 @@ export default function Register() {
           </div>
           <div class="relative mb-4">
             <input
-              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              className={inputStyleClass}
               label="Password"
               placeholder="Password"
               type={visible ? "password" : "text"}
@@ -89,7 +88,7 @@ export default function Register() {
           </div>
 
           <button
-            className="text-white bg-btn-majorelle-blue border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg mb-4"
+            className="mb-3 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full"
             type="submit"
           >
             Register
@@ -97,11 +96,7 @@ export default function Register() {
 
           <p className="register-link">
             Already have an account?{" "}
-            <Link
-              to="/login"
-              className="text-cyber-yellow "
-              variant="contained"
-            >
+            <Link to="/login" className="text-blue-600 " variant="contained">
               Login
             </Link>
           </p>
