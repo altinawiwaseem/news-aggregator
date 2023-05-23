@@ -1,21 +1,26 @@
-import React, { useContext } from "react";
-import { UserContext } from "../Context/UserContext";
+import React, { useContext, useEffect } from "react";
 import { style } from "../../utili/style.js";
+import { NewsContext } from "../Context/NewsContext";
 
-const Pagination = ({ currentPage, totalPages, onNextPage, onPrevPage }) => {
-  const { buttonStyleClass } = useContext(UserContext);
+const Pagination = ({ currentPage, totalPages }) => {
+  const { page, setPage, fetchNews } = useContext(NewsContext);
 
   const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      onNextPage(currentPage + 1);
+    if (page < totalPages) {
+      setPage(page + 1);
     }
   };
 
   const handlePrevPage = () => {
-    if (currentPage > 1) {
-      onPrevPage(currentPage - 1);
+    if (page > 1) {
+      setPage(page - 1);
     }
   };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    fetchNews();
+  }, [currentPage]);
 
   return (
     <div className="flex justify-center m-4">

@@ -11,15 +11,7 @@ const News = () => {
     useContext(NewsContext);
 
   const [val, setVal] = useState(0);
-  const handleNextPage = (page) => {
-    setPage(page);
-    fetchNews();
-  };
 
-  const handlePrevPage = (page) => {
-    setPage(page);
-    fetchNews();
-  };
   return (
     <>
       <Box display="flex w-full " justifyContent={"center"}>
@@ -57,12 +49,7 @@ const News = () => {
         </div>
       )}
 
-      <Pagination
-        currentPage={page}
-        totalPages={10}
-        onNextPage={handleNextPage}
-        onPrevPage={handlePrevPage}
-      />
+      <Pagination currentPage={page} totalPages={10} />
     </>
   );
 };
