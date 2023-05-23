@@ -62,13 +62,23 @@ function Header() {
           {user && (
             <>
               <div className="w-full">
-                <ul className="w-1/3 flex justify-around">
-                  <li className="hover:text-blue-800 text-blue-600 dark:text-snow dark:hover:text-blue-600 ">
-                    <a href="/">News </a>{" "}
+                <ul className="w-1/3 flex justify-evenly">
+                  <li className="hover:text-blue-800 text-blue-600 dark:text-snow dark:hover:text-blue-600 mr-2">
+                    <a
+                      className=" border-b-2 py-1 hover:border-b-blue-800 border-b-blue-600 dark:border-b-snow dark:hover:border-b-blue-600"
+                      href="/"
+                    >
+                      News{" "}
+                    </a>{" "}
                   </li>
 
                   <li className="hover:text-blue-800 text-blue-600 dark:text-snow dark:hover:text-blue-600 ">
-                    <a href="dashboard">Dashboard</a>{" "}
+                    <a
+                      className="border-b-2 py-1 hover:border-b-blue-800 border-b-blue-600 dark:border-b-snow dark:hover:border-b-blue-600"
+                      href="dashboard"
+                    >
+                      Dashboard
+                    </a>{" "}
                   </li>
                 </ul>
               </div>

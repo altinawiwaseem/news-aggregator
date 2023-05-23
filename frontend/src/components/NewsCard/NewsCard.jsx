@@ -44,6 +44,7 @@ const NewsCard = ({ post, i }) => {
       lead_paragraph: description = "",
       byline: { original: author = "" } = {},
     } = post);
+    thumbnail = `https://www.nytimes.com/${thumbnail}`;
   }
 
   const [imageLoaded, setImageLoaded] = useState(false);

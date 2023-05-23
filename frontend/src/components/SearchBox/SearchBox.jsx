@@ -7,8 +7,6 @@ import { style } from "../../utili/style.js";
 function SearchBox() {
   const { updateFormData, fetchNews, formData } = useContext(NewsContext);
 
-  const defaultLanguagesOption = "en";
-
   const formRefs = {
     category: useRef(""),
     searchIn: useRef(""),
