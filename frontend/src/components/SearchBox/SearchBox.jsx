@@ -131,7 +131,7 @@ function SearchBox() {
         <div className="sm:flex sm:gap-4 items-center">
           <div className="relative inline-block w-full">
             <select
-              className={`dark:bg-input-space-cadet peer w-full pb-1 pt-3 px-3 text-base rounded-lg border border-gray-400 focus:border-red-400 text-gray-600 bg-white focus:outline-none focus:ring-0 appearance-none transition-colors duration-300`} // Add pr-8 class to accommodate the icon width
+              className={style.selectStyle} // Add pr-8 class to accommodate the icon width
               id="country"
               defaultValue={formData.country || ""}
               name="country"
@@ -157,7 +157,7 @@ function SearchBox() {
 
           <div className="relative inline-block w-full">
             <select
-              className={`dark:bg-input-space-cadet peer w-full pb-1 pt-3 px-3 text-base rounded-lg border border-gray-400 focus:border-red-400 text-gray-600 bg-white focus:outline-none focus:ring-0 appearance-none transition-colors duration-300 `}
+              className={style.selectStyle}
               defaultValue={formData.language || ""}
               id="language"
               name="language"
@@ -184,7 +184,7 @@ function SearchBox() {
           <div className="relative inline-block w-full">
             <select
               name="sortBy"
-              className={`dark:bg-input-space-cadet peer w-full pb-1 pt-3 px-3 text-base rounded-lg border border-gray-400 focus:border-red-400 text-gray-600 bg-white focus:outline-none focus:ring-0 appearance-none transition-colors duration-300 `}
+              className={style.selectStyle}
               ref={formRefs.sortBy}
               defaultValue={formData.sortBy || ""}
             >
