@@ -191,12 +191,10 @@ const NewsProvider = ({ children }) => {
             apiKey
           )}`;
 
-          console.log("apiUrl", apiUrl);
           const response = await fetch(apiUrl);
           const data = await response.json();
-
+          console.log("data", data);
           if (apiSource === "newsApi") {
-            console.log("newsApiresponse", data.articles);
             return data?.articles?.map((article) => ({
               ...article,
               apiSource: "newsApi",
@@ -219,53 +217,47 @@ const NewsProvider = ({ children }) => {
         }
       }
 
-      const newsResponse = await fetchData(
-        newsBaseUrl,
-        newsApiParams,
-        "newsApi",
-        page,
-        newsApiKey
-      );
+      // Parallelize the API requests using Promise.all
 
-      const guardianResponse = await fetchData(
-        guardianBaseUrl,
-        guardianApiParams,
-        "guardianApi",
-        page,
-        guardianApiKey
-      );
-
-      const newYorkResponse = await fetchData(
-        newYorkTimesBaseUrl,
-        newYorkTimesApiParams,
-        "newYorkApi",
-        page,
-        newYorkTimesApiKey
-      );
-
-      const newsPreferences = await fetchData(
-        newsBaseUrl,
-        preferences,
-        "newsApi",
-        page,
-        newsApiKey
-      );
-
-      const guardianPreferences = await fetchData(
-        guardianBaseUrl,
-        preferences,
-        "guardianApi",
-        page,
-        guardianApiKey
-      );
-
-      const newYorkPreferences = await fetchData(
-        newYorkTimesBaseUrl,
-        preferences,
-        "newYorkApi",
-        page,
-        newYorkTimesApiKey
-      );
+      const [
+        newsResponse,
+        guardianResponse,
+        newYorkResponse,
+        newsPreferences,
+        guardianPreferences,
+        newYorkPreferences,
+      ] = await Promise.all([
+        fetchData(newsBaseUrl, newsApiParams, "newsApi", page, newsApiKey),
+        fetchData(
+          guardianBaseUrl,
+          guardianApiParams,
+          "guardianApi",
+          page,
+          guardianApiKey
+        ),
+        fetchData(
+          newYorkTimesBaseUrl,
+          newYorkTimesApiParams,
+          "newYorkApi",
+          page,
+          newYorkTimesApiKey
+        ),
+        fetchData(newsBaseUrl, preferences, "newsApi", page, newsApiKey),
+        fetchData(
+          guardianBaseUrl,
+          preferences,
+          "guardianApi",
+          page,
+          guardianApiKey
+        ),
+        fetchData(
+          newYorkTimesBaseUrl,
+          preferences,
+          "newYorkApi",
+          page,
+          newYorkTimesApiKey
+        ),
+      ]);
 
       const combinedResponse = [
         ...(newsResponse || []),
@@ -278,9 +270,9 @@ const NewsProvider = ({ children }) => {
         ...(guardianPreferences || []),
         ...(newYorkPreferences || []),
       ];
-      console.log(news);
+      console.log("combinedResponse", combinedResponse);
+      console.log("combinedPreferences", combinedPreferences);
       setNews(combinedResponse);
-      console.log(combinedResponse);
       setNewsPreferences(combinedPreferences);
     } catch (error) {
       console.error("Error fetching news:", error);
