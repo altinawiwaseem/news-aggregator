@@ -67,7 +67,7 @@ function Header({ theme, setTheme }) {
             <div className="w-full">
               <ul className="w-1/3 flex justify-around">
                 <li className="hover:text-blue-800 dark:text-snow dark:hover:text-blue-600 ">
-                  <a href="news">News </a>{" "}
+                  <a href="/">News </a>{" "}
                 </li>
 
                 <li className="hover:text-blue-800 dark:text-snow dark:hover:text-blue-600 ">

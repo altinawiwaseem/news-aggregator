@@ -17,7 +17,11 @@ const UserContextProvider = ({ children }) => {
   const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL;
 
   const login = async (formData) => {
-    console.log("url", process.env.REACT_APP_BASE_BACKEND_URL + "/api/login");
+    console.log(
+      "url userContext 20",
+      process.env.REACT_APP_BASE_BACKEND_URL + "/api/login"
+    );
+
     await axios
       .post(baseUrl + "/api/login", {
         email: formData.get("email"),
@@ -25,6 +29,9 @@ const UserContextProvider = ({ children }) => {
       })
       .then((response) => {
         const { token, user } = response.data;
+        console.log("loginREsponse 32", response);
+        console.log("user login response", user);
+        console.log("token login response", token);
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
         setError("");
@@ -43,7 +50,7 @@ const UserContextProvider = ({ children }) => {
   const handleLogout = async () => {
     try {
       await axios
-        .post(baseUrl + "/api/logout")
+        .post(baseUrl + "/api/logout", {})
         .then(() => {
           setUser("");
         })
@@ -56,9 +63,10 @@ const UserContextProvider = ({ children }) => {
   };
   const localStorageUser = () => {
     let user = localStorage.getItem("user");
-    if (user) {
+    console.log("first", user);
+    /* if (user) {
       user = JSON.parse(localStorage.getItem("user"));
-    }
+    } */
 
     const token = localStorage.getItem("token");
 

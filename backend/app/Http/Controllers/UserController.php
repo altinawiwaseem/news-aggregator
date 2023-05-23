@@ -51,28 +51,24 @@ class UserController extends Controller
 
 
     // Handle login form submission
-    public function login(Request $request)
+       
+    public function login(Request $req)
     {
-        // Validate the form data
-        $credentials = $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
-
-        // Attempt to log the user in
+        $credentials = $req->only('email', 'password');
+    
         if (Auth::attempt($credentials)) {
-           
+            // Authentication passed...
             $user = Auth::user();
             $token = $user->createToken('access_token')->plainTextToken;
-            return response()->json(['user' => $user, 'token' => $token], 200);
-        } else {
-            // Authentication failed
-            return back()->withErrors(['message' => 'Invalid login credentials']);
+           return response()->json(['user' => $user, "token"=> $token], 200);
         }
+    
+        return response()->json(['error' => 'Invalid login credentials'], 401);
     }
 
 
     // Log the user out
+
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
