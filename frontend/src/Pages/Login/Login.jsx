@@ -6,8 +6,14 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { UserContext } from "../../components/Context/UserContext";
 
 export default function Login() {
-  const { login, error, visible, setVisible, inputStyleClass } =
-    useContext(UserContext);
+  const {
+    login,
+    error,
+    visible,
+    setVisible,
+    inputStyleClass,
+    buttonStyleClass,
+  } = useContext(UserContext);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -17,11 +23,11 @@ export default function Login() {
   };
 
   return (
-    <div className=" flex justify-center items-center h-full ">
+    <div className=" flex justify-center items-center h-full mt-10">
       <form onSubmit={handleLogin} className="h-1/2">
         <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg flex flex-col items-center bg-gray-200 h-full">
           <p className="title-font text-2xl mb-4">Login</p>
-          <p>{error}</p>
+          <p className="text-red-600">{error}</p>
           <div class="relative mb-4">
             <input
               className={inputStyleClass}
@@ -48,10 +54,7 @@ export default function Login() {
               {!visible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
             </span>
           </div>
-          <button
-            className="mb-3 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full"
-            type="submit"
-          >
+          <button className={buttonStyleClass} type="submit">
             Login
           </button>
           <p className="register-link">

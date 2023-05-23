@@ -124,7 +124,7 @@ function PreferencesDashboard() {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row h-full gap-4">
+    <div className="flex flex-col md:flex-row h-full gap-4 sm:w-5/6 ">
       <div className="w-full lg:w-1/3 p-4 h-full">
         <h2 className="text-2xl mb-4 dark:text-snow">Control Preferences</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">

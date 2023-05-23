@@ -71,8 +71,8 @@ function SearchBox() {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="flex flex-col bg-white w-full p-5 sm:px-20 gap-2 rounded-md drop-shadow-lg relative dark:bg-bg-xiketic dark:shadow-6xl">
+    <form onSubmit={handleSubmit} className="flex justify-center w-full">
+      <div className="flex flex-col bg-white w-full p-5 sm:px-20 gap-2 rounded-md drop-shadow-lg relative dark:bg-bg-xiketic dark:shadow-6xl sm:w-3/4">
         <div className="relative flex  w-full gap-2">
           <input
             name="q"

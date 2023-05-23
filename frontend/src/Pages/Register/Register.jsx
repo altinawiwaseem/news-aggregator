@@ -6,7 +6,7 @@ import { UserContext } from "../../components/Context/UserContext";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 export default function Register() {
-  const { inputStyleClass, visible, setVisible, baseUrl } =
+  const { inputStyleClass, visible, setVisible, baseUrl, buttonStyleClass } =
     useContext(UserContext);
 
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ export default function Register() {
   };
 
   return (
-    <div className=" flex justify-center items-center h-full ">
+    <div className=" flex justify-center items-center h-full mt-10">
       {/* registration form */}
       <form onSubmit={handleSubmit}>
         <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg flex flex-col items-center bg-gray-200">
@@ -87,10 +87,7 @@ export default function Register() {
             </span>
           </div>
 
-          <button
-            className="mb-3 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full"
-            type="submit"
-          >
+          <button className={buttonStyleClass} type="submit">
             Register
           </button>
 

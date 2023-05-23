@@ -10,17 +10,11 @@ import useDarkMode from "../DarkMode/DarkMode";
 
 //icons
 import { FaSun, FaMoon } from "react-icons/fa";
-import Register from "../../Pages/Register/Register";
-import Login from "../../Pages/Login/Login";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
-function Header({ theme, setTheme }) {
-  const {
-    openRegisterForm,
-    openLoginForm,
-
-    user,
-    handleLogout,
-  } = useContext(UserContext);
+function Header() {
+  const { buttonStyleClass, user, handleLogout } = useContext(UserContext);
   const navigate = useNavigate();
   //to show the dropmenu
   const [showDropMenu, setShowDropMenu] = useState(false);
@@ -54,87 +48,90 @@ function Header({ theme, setTheme }) {
   useOutsideCloseDropMenu(buttonRef);
 
   return (
-    <div className="dark:bg-bg-xiketic container ">
-      <div className="mx-auto flex justify-between p-5 items-center">
-        {!user && (
-          <button className="rounded  md:p-3 font-medium inline-flex sm:w-[15%] items-center justify-center bg-btn-majorelle-blue px-6 py-3 text-cyber-yellow hover:bg-han-purple ">
-            Join Us!
-          </button>
-        )}
-        {/* when the user is signedIn */}
-        {user && (
-          <>
-            <div className="w-full">
-              <ul className="w-1/3 flex justify-around">
-                <li className="hover:text-blue-800 dark:text-snow dark:hover:text-blue-600 ">
-                  <a href="/">News </a>{" "}
-                </li>
-
-                <li className="hover:text-blue-800 dark:text-snow dark:hover:text-blue-600 ">
-                  <a href="dashboard">Dashboard</a>{" "}
-                </li>
-              </ul>
+    <>
+      <div className="dark:bg-bg-xiketic bg-gray-200  px-6 sm:px-8 lg:px-12 text-white w-full ">
+        <div className="mx-auto flex justify-between p-5 items-center">
+          {!user && (
+            <div className="w-full flex justify-center sm:justify-end">
+              <Link to="/register" className="w-32">
+                <button className={buttonStyleClass}>Join Us!</button>
+              </Link>
             </div>
-            <div ref={buttonRef} className="relative ">
-              <img
-                onClick={handleDropMenu}
-                className="cursor-pointer  w-14 h-14 border-4 rounded-full  border-green-600 flex justify-center items-center "
-                alt=""
-                src={user?.avatar}
-              />
-              {showDropMenu && (
-                <div className="flex flex-col w-60 z-[100] text-white absolute right-2 top-20 font-poppins text-base">
-                  <div className="dark:border-nav-raisin-black-2 w-full bg-text-ghost-white rounded border dark:bg-nav-raisin-black-2 dark:text-snow border-gray-300  focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out dark:hover:bg-nav-raisin-black-4 transition duration-200">
-                    <div
-                      className="flex justify-start items-center cursor-pointer"
-                      onClick={handleUserNavigateToUserProfileFromAvatar}
-                    >
-                      <img
-                        className="cursor-pointer w-14 h-14 border-4 border-green-600 rounded-full flex justify-center items-center"
-                        alt=""
-                        src={user?.avatar}
-                      />
-                      <div className="ml-5 ">
-                        {user?.firstName?.charAt(0).toUpperCase() +
-                          user?.firstName?.slice(1)}{" "}
+          )}
+          {/* when the user is signedIn */}
+          {user && (
+            <>
+              <div className="w-full">
+                <ul className="w-1/3 flex justify-around">
+                  <li className="hover:text-blue-800 text-blue-600 dark:text-snow dark:hover:text-blue-600 ">
+                    <a href="/">News </a>{" "}
+                  </li>
+
+                  <li className="hover:text-blue-800 text-blue-600 dark:text-snow dark:hover:text-blue-600 ">
+                    <a href="dashboard">Dashboard</a>{" "}
+                  </li>
+                </ul>
+              </div>
+              <div ref={buttonRef} className="relative ">
+                {!showDropMenu ? (
+                  <RxHamburgerMenu
+                    onClick={handleDropMenu}
+                    className="cursor-pointer  w-10 h-10 text-black dark:text-snow"
+                  />
+                ) : (
+                  <AiOutlineCloseCircle
+                    onClick={handleDropMenu}
+                    className="cursor-pointer  w-10 h-10 text-black dark:text-snow"
+                  />
+                )}
+
+                {showDropMenu && (
+                  <div className="flex flex-col w-60 z-[100] text-white absolute -right-2 top-12 font-poppins text-base">
+                    <div className="dark:border-nav-raisin-black-2 w-full bg-text-ghost-white rounded border dark:bg-nav-raisin-black-2 dark:text-snow border-gray-300  focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out dark:hover:bg-nav-raisin-black-4 transition duration-200">
+                      <div
+                        className="flex justify-start items-center cursor-pointer"
+                        onClick={handleUserNavigateToUserProfileFromAvatar}
+                      >
+                        <div className="ml-5 font-bold">
+                          {user?.firstName?.charAt(0).toUpperCase() +
+                            user?.firstName?.slice(1)}{" "}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <Link
-                    className="dark:border-nav-raisin-black-3 w-full bg-text-ghost-white rounded border dark:bg-nav-raisin-black-4 dark:text-snow focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out 
+                    <Link
+                      className="dark:border-nav-raisin-black-3 w-full bg-text-ghost-white rounded border dark:bg-nav-raisin-black-4 dark:text-snow focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out 
                   dark:hover:bg-nav-raisin-black-2 transition duration-200"
-                    to="/dashboard"
-                  >
-                    Preferences Dashboard{" "}
-                  </Link>
-                  <div
-                    className="dark:border-nav-raisin-black-3 w-full bg-text-ghost-white dark:bg-nav-raisin-black-4 dark:text-snow rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out flex items-center cursor-pointer
+                      to="/dashboard"
+                    >
+                      Preferences Dashboard{" "}
+                    </Link>
+                    <div
+                      className="dark:border-nav-raisin-black-3 w-full bg-text-ghost-white dark:bg-nav-raisin-black-4 dark:text-snow rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out flex items-center cursor-pointer
                   dark:hover:bg-nav-raisin-black-2 transition duration-200"
-                    onClick={handleMode}
-                  >
-                    <span>{darkTheme ? "Light Mode" : "Dark Mode"}</span>
-                    <span className="ml-5">
-                      {darkTheme ? <FaSun /> : <FaMoon />}
-                    </span>
-                  </div>
+                      onClick={handleMode}
+                    >
+                      <span>{darkTheme ? "Light Mode" : "Dark Mode"}</span>
+                      <span className="ml-5">
+                        {darkTheme ? <FaSun /> : <FaMoon />}
+                      </span>
+                    </div>
 
-                  <button
-                    onClick={handleLogout}
-                    className="dark:border-nav-raisin-black-2 w-full bg-text-ghost-white dark:bg-nav-raisin-black dark:text-snow rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer
+                    <button
+                      onClick={handleLogout}
+                      className="dark:border-nav-raisin-black-2 w-full bg-text-ghost-white dark:bg-nav-raisin-black dark:text-snow rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer
                   dark:hover:bg-red-500 transition duration-600
                   hover:bg-red-500 transition duration-600"
-                  >
-                    Logout{handleLogout}
-                  </button>
-                </div>
-              )}
-            </div>{" "}
-          </>
-        )}
+                    >
+                      Logout{handleLogout}
+                    </button>
+                  </div>
+                )}
+              </div>{" "}
+            </>
+          )}
+        </div>
       </div>
-      {/* if the open login form is there show login form */}
-      {(openRegisterForm && <Register />) || (openLoginForm && <Login />)}
-    </div>
+    </>
   );
 }
 

@@ -20,7 +20,7 @@ const NewsProvider = ({ children }) => {
   };
 
   const inputStyle =
-    "dark:bg-input-space-cadet peer w-full pb-1 pt-3 px-3 text-base rounded-lg border border-gray-400 focus:border-red-400 text-gray-600 bg-white focus:outline-none focus:ring-0 appearance-none transition-colors duration-300";
+    "dark:bg-input-space-cadet peer w-full pb-1 pt-3 px-3 text-base rounded-lg border border-gray-400 focus:border-red-400 text-gray-600 bg-white focus:outline-none focus:ring-0 appearance-none transition-colors duration-300 ";
 
   function retrieveFormDataFromLocalStorage() {
     const formData = localStorage.getItem("formData");
