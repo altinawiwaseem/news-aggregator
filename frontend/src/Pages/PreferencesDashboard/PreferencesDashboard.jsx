@@ -126,7 +126,7 @@ function PreferencesDashboard() {
   return (
     <div className="flex flex-col md:flex-row h-full gap-4">
       <div className="w-full lg:w-1/3 p-4 h-full">
-        <h2 className="text-2xl mb-4">Control Preferences</h2>
+        <h2 className="text-2xl mb-4 dark:text-snow">Control Preferences</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className=" mb-4">
             <input
@@ -220,13 +220,15 @@ function PreferencesDashboard() {
 
       {preferences && (
         <div className="w-full lg:w-2/3 p-4">
-          <h2 className="text-2xl mb-4">Preferences List</h2>
+          <h2 className="text-2xl dark:text-snow mb-4">Preferences List</h2>
           {Object.keys(preferences).map((key) => {
             const values = preferences[key];
             return (
               <div key={key} className="preference-block  h-1/5">
                 <hr />
-                <h2 className="mb-2">{`${key === "q" ? "Search" : key}`}</h2>
+                <h2 className="mb-2 dark:text-snow">{`${
+                  key === "q" ? "Search" : key
+                }`}</h2>
 
                 <div className="tags flex gap-4">
                   {values.map((value) => (
@@ -234,7 +236,7 @@ function PreferencesDashboard() {
                       className="relative inline-flex items-center justify-center flex-wrap "
                       key={value}
                     >
-                      <div className="tag border border-gray-600 rounded-lg px-3 py-1 mr-2">
+                      <div className="tag border border-gray-600 rounded-lg px-3 py-1 mr-2 dark:text-snow">
                         {value}
                       </div>
                       <span

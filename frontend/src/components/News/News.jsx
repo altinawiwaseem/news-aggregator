@@ -22,8 +22,14 @@ const News = () => {
     <>
       <Box display="flex" justifyContent={"center"}>
         <Tabs value={val} onChange={(e, val) => setVal(val)}>
-          <Tab label="All News" />
-          <Tab label="My News" />
+          <Tab
+            className="hover:text-blue-800 dark:text-snow dark:hover:text-blue-600 "
+            label="All News"
+          />
+          <Tab
+            className="hover:text-blue-800 dark:text-snow dark:hover:text-blue-600 "
+            label="My News"
+          />
         </Tabs>
       </Box>
 

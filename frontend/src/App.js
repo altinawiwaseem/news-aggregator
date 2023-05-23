@@ -1,12 +1,11 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header/Header";
-import SearchBox from "./components/SearchBox/SearchBox";
 import Register from "./Pages/Register/Register";
 import Login from "./Pages/Login/Login";
-import Home from "./Pages/Home/Home";
 import News from "./components/News/News";
 import PreferencesDashboard from "./Pages/PreferencesDashboard/PreferencesDashboard";
+import ProtectedRoutes from "./components/ProtectedRoute/ProtectedRoutes";
 
 function App() {
   return (
@@ -16,11 +15,12 @@ function App() {
         {/* <SideBar /> */}
 
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<PreferencesDashboard />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/news" element={<News />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route element={<News />} path="/" exact />
+            <Route element={<PreferencesDashboard />} path="/dashboard" />
+          </Route>
         </Routes>
       </div>
     </div>

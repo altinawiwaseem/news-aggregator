@@ -8,10 +8,6 @@ const UserContextProvider = ({ children }) => {
   const [error, setError] = useState("");
   const [user, setUser] = useState("");
 
-  //open register form when join us button in header is clicked
-  const [openRegisterForm, setOpenRegisterForm] = useState(false);
-  //when a user is loggedin after auth
-  const [openLoginForm, setOpenLoginForm] = useState(false);
   //sign in the right user from db
   const [signIn, setSignIn] = useState({});
   //for eye icon in password
@@ -47,18 +43,22 @@ const UserContextProvider = ({ children }) => {
   const handleLogout = async () => {
     try {
       await axios
-        .post(baseUrl + "/api/logout", {})
+        .post(baseUrl + "/api/logout")
         .then(() => {
           setUser("");
         })
+        .then(() => navigate("/login"))
         .then(localStorage.clear("user"))
-        .then(() => navigate("/"));
+        .then(localStorage.clear("preferences"));
     } catch (error) {
       console.log(error);
     }
   };
   const localStorageUser = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    let user = localStorage.getItem("user");
+    if (user) {
+      user = JSON.parse(localStorage.getItem("user"));
+    }
 
     const token = localStorage.getItem("token");
 
@@ -73,18 +73,6 @@ const UserContextProvider = ({ children }) => {
     localStorageUser();
   }, []);
 
-  const handleShowRegisterForm = () => {
-    console.log(openRegisterForm);
-    console.log(openLoginForm);
-    setOpenRegisterForm(true);
-    setOpenLoginForm(false);
-  };
-
-  const handleShowLoginForm = () => {
-    setOpenRegisterForm(false);
-    setOpenLoginForm(true);
-  };
-
   return (
     <UserContext.Provider
       value={{
@@ -94,14 +82,8 @@ const UserContextProvider = ({ children }) => {
         user,
         setUser,
         handleLogout,
-        openRegisterForm,
-        setOpenRegisterForm,
-        openLoginForm,
-        setOpenLoginForm,
         signIn,
         setSignIn,
-        handleShowRegisterForm,
-        handleShowLoginForm,
         visible,
         setVisible,
         localStorageUser,

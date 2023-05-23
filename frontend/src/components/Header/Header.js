@@ -17,7 +17,7 @@ function Header({ theme, setTheme }) {
   const {
     openRegisterForm,
     openLoginForm,
-    handleShowRegisterForm,
+
     user,
     handleLogout,
   } = useContext(UserContext);
@@ -57,10 +57,7 @@ function Header({ theme, setTheme }) {
     <div className="dark:bg-bg-xiketic container ">
       <div className="mx-auto flex justify-between p-5 items-center">
         {!user && (
-          <button
-            className="rounded  md:p-3 font-medium inline-flex sm:w-[15%] items-center justify-center bg-btn-majorelle-blue px-6 py-3 text-cyber-yellow hover:bg-han-purple "
-            onClick={handleShowRegisterForm}
-          >
+          <button className="rounded  md:p-3 font-medium inline-flex sm:w-[15%] items-center justify-center bg-btn-majorelle-blue px-6 py-3 text-cyber-yellow hover:bg-han-purple ">
             Join Us!
           </button>
         )}
@@ -69,11 +66,11 @@ function Header({ theme, setTheme }) {
           <>
             <div className="w-full">
               <ul className="w-1/3 flex justify-around">
-                <li>
+                <li className="hover:text-blue-800 dark:text-snow dark:hover:text-blue-600 ">
                   <a href="news">News </a>{" "}
                 </li>
 
-                <li>
+                <li className="hover:text-blue-800 dark:text-snow dark:hover:text-blue-600 ">
                   <a href="dashboard">Dashboard</a>{" "}
                 </li>
               </ul>
