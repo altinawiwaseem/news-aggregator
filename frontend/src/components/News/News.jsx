@@ -4,7 +4,7 @@ import NewsCard from "../NewsCard/NewsCard";
 import SearchBox from "../SearchBox/SearchBox";
 import Pagination from "../Pagination/Pagination";
 import { Box, Tab, Tabs } from "@mui/material";
-import { style } from "../../utili/style.js";
+import { style } from "../../utils/style.js";
 
 const News = () => {
   const { news, page, setPage, fetchNews, newsPreferences } =
@@ -49,7 +49,7 @@ const News = () => {
         </div>
       )}
 
-      <Pagination currentPage={page} totalPages={10} />
+      <Pagination />
     </>
   );
 };

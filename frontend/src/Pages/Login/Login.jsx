@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { UserContext } from "../../components/Context/UserContext";
-import { style } from "../../utili/style.js";
+import { style } from "../../utils/style.js";
 import { NewsContext } from "../../components/Context/NewsContext";
 
 export default function Login() {

@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import countriesList from "countries-list";
 import { AiOutlineClose } from "react-icons/ai";
-import { languages } from "../../utili/languges";
+import { languages } from "../../utils/languges";
 import { NewsContext } from "../../components/Context/NewsContext";
-import { style } from "../../utili/style.js";
+import { style } from "../../utils/style.js";
 
 function PreferencesDashboard() {
   const { fetchNews, getPreferencesFromDatabase, preferences } =

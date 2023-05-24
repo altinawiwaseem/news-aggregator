@@ -1,9 +1,9 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-// import OutsideAlerter from "../Alert/Alert";
+// import Context from ;
 import { UserContext } from "../Context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { NewsContext } from "../Context/NewsContext";
 
 //import Theme from "../Theme/Theme";
 import useDarkMode from "../DarkMode/DarkMode";
@@ -13,12 +13,15 @@ import { FaSun, FaMoon } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
+import { style } from "../../utils/style.js";
 function Header() {
-  const { buttonStyleClass, user, handleLogout } = useContext(UserContext);
+  const { user, handleLogout } = useContext(UserContext);
+
   const navigate = useNavigate();
   //to show the dropmenu
   const [showDropMenu, setShowDropMenu] = useState(false);
 
+  // theme
   const [darkTheme, setDarkTheme] = useDarkMode();
   const handleMode = () => setDarkTheme(!darkTheme);
 
@@ -54,7 +57,7 @@ function Header() {
           {!user && (
             <div className="w-full flex justify-center sm:justify-end">
               <Link to="/register" className="w-32">
-                <button className={buttonStyleClass}>Join Us!</button>
+                <button className={style.buttonStyleClass}>Join Us!</button>
               </Link>
             </div>
           )}
@@ -132,7 +135,7 @@ function Header() {
                   dark:hover:bg-red-500 transition duration-600
                   hover:bg-red-500 transition duration-600"
                     >
-                      Logout{handleLogout}
+                      Logout
                     </button>
                   </div>
                 )}

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { NewsContext } from "../Context/NewsContext";
 import countriesList from "countries-list";
-import { languages } from "../../utili/languges";
-import { style } from "../../utili/style.js";
+import { languages } from "../../utils/languges";
+import { style } from "../../utils/style.js";
 
 function SearchBox() {
   const { updateFormData, fetchNews, formData } = useContext(NewsContext);

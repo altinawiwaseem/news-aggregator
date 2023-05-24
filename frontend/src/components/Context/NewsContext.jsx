@@ -127,7 +127,7 @@ const NewsProvider = ({ children }) => {
       const preferences = JSON.parse(localStorage.getItem("preferences"));
 
       const queryString = (params, apiSource, page, apiKey) => {
-        const searchKeywords = params.q;
+        const searchKeywords = params?.q;
         const hasMultipleKeywords =
           searchKeywords && searchKeywords.includes(" ");
 

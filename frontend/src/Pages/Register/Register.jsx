@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../components/Context/UserContext";
 
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { style } from "../../utili/style.js";
+import { style } from "../../utils/style.js";
 
 export default function Register() {
   const { visible, setVisible, baseUrl } = useContext(UserContext);

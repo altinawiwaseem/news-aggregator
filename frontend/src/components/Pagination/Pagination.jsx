@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from "react";
-import { style } from "../../utili/style.js";
+import { style } from "../../utils/style.js";
 import { NewsContext } from "../Context/NewsContext";
 
-const Pagination = ({ currentPage, totalPages }) => {
+const Pagination = () => {
   const { page, setPage, fetchNews } = useContext(NewsContext);
-
+  const totalPages = 10;
   const handleNextPage = () => {
     if (page < totalPages) {
       setPage(page + 1);
@@ -20,20 +20,20 @@ const Pagination = ({ currentPage, totalPages }) => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     fetchNews();
-  }, [currentPage]);
+  }, [page]);
 
   return (
     <div className="flex justify-center m-4">
       <button
         onClick={handlePrevPage}
-        disabled={currentPage === 1}
+        disabled={page === 1}
         className={style.buttonStyleClass}
       >
         Previous
       </button>
       <button
         onClick={handleNextPage}
-        disabled={currentPage === totalPages}
+        disabled={page === totalPages}
         className={style.buttonStyleClass}
       >
         Next
