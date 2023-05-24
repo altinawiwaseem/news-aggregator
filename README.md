@@ -6,7 +6,7 @@ The News Aggregator project is a web application that aggregates news articles f
 
 The project is built using Laravel for the backend and React for the frontend. It is dockerized and can be set up and run using Docker Compose. To get started, follow the instructions below.
 
-![Demo](./client/public/images/messageboard.gif)
+![Demo](./frontend/public/assets/readmeImg.gif)
 
 ---
 
