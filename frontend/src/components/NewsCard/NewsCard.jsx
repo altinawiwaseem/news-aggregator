@@ -102,10 +102,10 @@ const NewsCard = ({ post, i }) => {
         <div className="relative mt-8 flex items-center gap-x-4 p-3">
           <div className="text-sm leading-6">
             <p className="font-semibold text-gray-900">
-              <a href={post?.author} className="hover:underline">
+              <span href={post?.author} className="hover:underline">
                 <span className="absolute inset-0" />
                 {author}
-              </a>
+              </span>
             </p>
           </div>
         </div>

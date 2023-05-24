@@ -5,7 +5,14 @@ import { languages } from "../../utils/languges";
 import { style } from "../../utils/style.js";
 
 function SearchBox() {
-  const { updateFormData, fetchNews, formData } = useContext(NewsContext);
+  const {
+    updateFormData,
+    fetchNews,
+    formData,
+    page,
+    paramsArray,
+    preferencesArray,
+  } = useContext(NewsContext);
 
   const formRefs = {
     category: useRef(""),
@@ -57,16 +64,15 @@ function SearchBox() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     saveFormDataToLocalStorage();
-
-    fetchNews();
+    fetchNews(paramsArray, preferencesArray);
   };
-
   useEffect(() => {
     const existingData = localStorage.getItem("formData");
     if (!existingData) {
       saveFormDataToLocalStorage();
+      fetchNews(paramsArray, preferencesArray);
     }
-  }, []);
+  }, [formData, page]);
 
   return (
     <form onSubmit={handleSubmit} className="flex justify-center w-full">

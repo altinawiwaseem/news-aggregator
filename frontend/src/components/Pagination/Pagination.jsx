@@ -19,7 +19,7 @@ const Pagination = () => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    fetchNews();
+    /* fetchNews(); */
   }, [page]);
 
   return (
