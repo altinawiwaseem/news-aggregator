@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import countriesList from "countries-list";
 import { AiOutlineClose } from "react-icons/ai";
@@ -9,7 +9,6 @@ import { style } from "../../utils/style.js";
 function PreferencesDashboard() {
   const { fetchNews, getPreferencesFromDatabase, preferences } =
     useContext(NewsContext);
-  /* const [preferences, setPreferences] = useState([]); */
 
   const searchRef = useRef("");
   const categoryRef = useRef("");
@@ -30,54 +29,6 @@ function PreferencesDashboard() {
     const language = languages.find((lang) => lang.code === code);
     return language ? language.name : "";
   }
-
-  /*  const getPreferencesFromDatabase = () => {
-    axios
-      .get(`${baseUrl}/api/preferences`)
-      .then((response) => {
-        const databasePreferences = response.data;
-        const storedPreferences = JSON.parse(
-          localStorage.getItem("preferences")
-        );
-
-        let preferences = {};
-
-        if (storedPreferences) {
-          preferences = storedPreferences;
-        }
-
-        // Check and delete preferences that exist in localStorage but not in the database
-        Object.keys(preferences).forEach((field) => {
-          if (
-            databasePreferences.some(
-              (preference) => preference[field] !== preferences[field]
-            )
-          ) {
-            delete preferences[field];
-          }
-        });
-
-        // Update preferences with database values
-        databasePreferences.forEach((preference) => {
-          const fields = ["q", "category", "country", "language", "tag"];
-          fields.forEach((field) => {
-            if (preference[field]) {
-              if (!preferences.hasOwnProperty(field)) {
-                preferences[field] = [preference[field]];
-              } else if (!preferences[field].includes(preference[field])) {
-                preferences[field].push(preference[field].trim());
-              }
-            }
-          });
-        });
-
-        localStorage.setItem("preferences", JSON.stringify(preferences));
-        setPreferences(preferences); // Assuming setPreferences is a function to update state with preferences
-      })
-      .catch((error) => {
-        console.error("Error fetching preferences:", error);
-      });
-  }; */
 
   const handleDelete = (key, value) => {
     // Delete preference from Laravel backend

@@ -135,7 +135,7 @@ function SearchBox() {
         <div className="sm:flex sm:gap-4 items-center">
           <div className="relative inline-block w-full">
             <select
-              className={style.selectStyle} // Add pr-8 class to accommodate the icon width
+              className={style.selectStyle} //
               id="country"
               defaultValue={formData.country || ""}
               name="country"

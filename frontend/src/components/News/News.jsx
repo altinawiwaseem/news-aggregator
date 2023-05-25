@@ -7,13 +7,13 @@ import { Box, Tab, Tabs } from "@mui/material";
 import { style } from "../../utils/style.js";
 
 const News = () => {
-  const { news, page, setPage, fetchNews, newsPreferences } =
-    useContext(NewsContext);
+  const { news, newsPreferences } = useContext(NewsContext);
 
   const [val, setVal] = useState(0);
 
   return (
     <>
+      {/* Tabs buttons */}
       <Box display="flex w-full " justifyContent={"center"}>
         <Tabs value={val} onChange={(e, val) => setVal(val)}>
           <Tab
@@ -29,6 +29,8 @@ const News = () => {
 
       {val === 0 ? (
         <>
+          {" "}
+          {/* News tab */}
           <SearchBox />
           <div className="w-full flex  justify-center">
             <div className={style.newDivStyle}>
@@ -38,6 +40,7 @@ const News = () => {
           </div>
         </>
       ) : (
+        /* Preferences tab */
         <div className="w-full flex  justify-center">
           <div className={style.newDivStyle}>
             {" "}

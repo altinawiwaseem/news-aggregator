@@ -3,7 +3,7 @@ import { style } from "../../utils/style.js";
 import { NewsContext } from "../Context/NewsContext";
 
 const Pagination = () => {
-  const { page, setPage, fetchNews } = useContext(NewsContext);
+  const { page, setPage } = useContext(NewsContext);
   const totalPages = 10;
   const handleNextPage = () => {
     if (page < totalPages) {
@@ -19,7 +19,6 @@ const Pagination = () => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    /* fetchNews(); */
   }, [page]);
 
   return (

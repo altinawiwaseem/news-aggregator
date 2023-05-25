@@ -80,8 +80,6 @@ const NewsCard = ({ post, i }) => {
             onError={handleImageError}
           />
         )}
-
-        {/* Render other content */}
         <div className="flex items-center gap-x-4 text-xs p-3">
           <time dateTime={publishedAt} className="text-gray-500">
             {publishedAt}

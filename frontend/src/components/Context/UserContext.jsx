@@ -14,6 +14,7 @@ const UserContextProvider = ({ children }) => {
   const [visible, setVisible] = useState(true);
   const navigate = useNavigate();
 
+  //Backend base url
   const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL;
 
   const login = async (formData) => {

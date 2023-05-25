@@ -4,11 +4,11 @@ import React, { createContext, useEffect, useState } from "react";
 // Create a new context
 const NewsContext = createContext();
 
-// Create a NewsProvider component to wrap your app with the context provider
+// Create a NewsProvider component to wrap the app with the context provider
+
 const NewsProvider = ({ children }) => {
   const [news, setNews] = useState([]);
   const [newsPreferences, setNewsPreferences] = useState([]);
-  /*  const [endPointsArray, setEndPointsArray] = useState([]); */
   const [page, setPage] = useState(1);
   const [formData, setFormData] = useState(retrieveFormDataFromLocalStorage());
   const [preferences, setPreferences] = useState([]);
@@ -100,6 +100,7 @@ const NewsProvider = ({ children }) => {
   const [paramsArray, setParamsArray] = useState([]);
   const [preferencesArray, setPreferencesArray] = useState([]);
 
+  // End points function
   async function endPoints(
     formData,
     newsApiKey,
@@ -109,6 +110,7 @@ const NewsProvider = ({ children }) => {
     newYorkTimesApiKey,
     newYorkTimesBaseUrl
   ) {
+    // to form the date for new york times
     const formatDate = (date) => (date ? date.split("-").join("") : null);
 
     const newsApiParams = {
@@ -163,7 +165,7 @@ const NewsProvider = ({ children }) => {
 
     try {
       const preferences = await getPreferencesFromDatabase();
-      console.log("preferences", preferences);
+
       const PreferencesArray = [
         {
           baseUrl: newsBaseUrl,
@@ -197,8 +199,9 @@ const NewsProvider = ({ children }) => {
     setParamsArray(paramsArray);
   }
 
+  // To fetch the news from apis
   const fetchNews = async (paramsArray, preferencesArray) => {
-    console.log("preferencesArray", preferencesArray);
+    // Format the query to url
     const queryString = (params, apiSource, page, apiKey) => {
       const searchKeywords = params?.q;
       const hasMultipleKeywords =
@@ -212,7 +215,7 @@ const NewsProvider = ({ children }) => {
         .map((key) => {
           const value = params[key];
           if (key === "q" && hasMultipleKeywords) {
-            // Use AND operator for multiple search keywords
+            //  AND operator for multiple search keywords
             const keywords = value
               .split(" ")
               .map((keyword) => encodeURIComponent(keyword));
@@ -287,7 +290,6 @@ const NewsProvider = ({ children }) => {
       const preferencesResponses = await Promise.allSettled(
         PreferencesPromises
       );
-      console.log("apiResponses", apiResponses);
 
       const apiResults = apiResponses.map((response) => {
         if (response.status === "fulfilled") {
@@ -341,7 +343,7 @@ const NewsProvider = ({ children }) => {
 
       const combinedResults = apiResults.flat();
       const combinedPreferences = preferencesResults.flat();
-      console.log("combinedResults", combinedResults);
+
       setNews(combinedResults);
       setNewsPreferences(combinedPreferences);
     } catch (err) {
@@ -361,7 +363,7 @@ const NewsProvider = ({ children }) => {
       newYorkTimesBaseUrl
     );
     getPreferencesFromDatabase();
-  }, [formData]);
+  }, [formData, page]);
 
   // Provide the context value to the child components
   return (

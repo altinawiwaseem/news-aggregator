@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-// import Context from ;
+// import Context from
 import { UserContext } from "../Context/UserContext";
 
 //import Theme from "../Theme/Theme";
@@ -17,7 +17,7 @@ function Header() {
   const { user, handleLogout } = useContext(UserContext);
 
   const navigate = useNavigate();
-  //to show the dropmenu
+  //to show the drop menu
   const [showDropMenu, setShowDropMenu] = useState(false);
 
   // theme
@@ -110,18 +110,10 @@ function Header() {
                         </div>
                       </div>
                     </div>
-                    <Link
-                      className="dark:border-nav-raisin-black-3 w-full bg-text-ghost-white rounded border dark:bg-nav-raisin-black-4 dark:text-snow focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out 
-                  dark:hover:bg-nav-raisin-black-2 transition duration-200"
-                      to="/dashboard"
-                    >
+                    <Link className={style.headerLinkStyle} to="/dashboard">
                       Preferences Dashboard{" "}
                     </Link>
-                    <div
-                      className="dark:border-nav-raisin-black-3 w-full bg-text-ghost-white dark:bg-nav-raisin-black-4 dark:text-snow rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out flex items-center cursor-pointer
-                  dark:hover:bg-nav-raisin-black-2 transition duration-200"
-                      onClick={handleMode}
-                    >
+                    <div className={style.headerLinkStyle} onClick={handleMode}>
                       <span>{darkTheme ? "Light Mode" : "Dark Mode"}</span>
                       <span className="ml-5">
                         {darkTheme ? <FaSun /> : <FaMoon />}
@@ -130,9 +122,7 @@ function Header() {
 
                     <button
                       onClick={handleLogout}
-                      className="dark:border-nav-raisin-black-2 w-full bg-text-ghost-white dark:bg-nav-raisin-black dark:text-snow rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer
-                  dark:hover:bg-red-500 transition duration-600
-                  hover:bg-red-500 transition duration-600"
+                      className={style.headerLogoutButton}
                     >
                       Logout
                     </button>

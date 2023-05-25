@@ -11,4 +11,9 @@ export const style = {
 
   selectStyle:
     "dark:bg-input-space-cadet dark:text-snow  w-full pb-1 pt-3 px-3 text-base rounded-lg border border-gray-400 focus:ring-1 text-gray-600 bg-white focus:outline-none focus:ring-0 appearance-none transition-colors duration-300 ",
+
+  headerLinkStyle:
+    "dark:border-nav-raisin-black-3 w-full bg-text-ghost-white dark:bg-nav-raisin-black-4 dark:text-snow rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out flex items-center cursor-pointer dark:hover:bg-nav-raisin-black-2 transition duration-200 ",
+  headerLogoutButton:
+    "dark:border-nav-raisin-black-2 w-full bg-text-ghost-white dark:bg-nav-raisin-black dark:text-snow rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out cursor-pointer   dark:hover:bg-red-500 transition duration-600 hover:bg-red-500 transition duration-600",
 };

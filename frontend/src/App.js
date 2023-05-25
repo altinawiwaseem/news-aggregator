@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-
+// Components
 import Header from "./components/Header/Header";
 import Register from "./Pages/Register/Register";
 import Login from "./Pages/Login/Login";
