@@ -30,10 +30,10 @@ export default function Register() {
   };
 
   return (
-    <div className=" flex justify-center items-center h-full mt-10">
+    <div className=" flex justify-center items-center h-full mt-10 dark:text-snow">
       {/* registration form */}
       <form onSubmit={handleSubmit}>
-        <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg flex flex-col items-center bg-gray-200">
+        <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg flex flex-col items-center bg-gray-200 drop-shadow-lg  dark:bg-bg-xiketic dark:shadow-6xl">
           <p className="title-font text-2xl mb-4">Register</p>
           <div className="relative mb-4">
             <input

@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 // import Context from ;
 import { UserContext } from "../Context/UserContext";
-import { NewsContext } from "../Context/NewsContext";
 
 //import Theme from "../Theme/Theme";
 import useDarkMode from "../DarkMode/DarkMode";

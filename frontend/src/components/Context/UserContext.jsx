@@ -46,6 +46,7 @@ const UserContextProvider = ({ children }) => {
 
   const handleLogout = () => {
     localStorage.clear();
+    setUser(false);
     navigate("/login");
   };
 

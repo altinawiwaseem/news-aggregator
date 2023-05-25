@@ -16,15 +16,15 @@ const NewsProvider = ({ children }) => {
   // Url & Api keys
   const baseUrl = process.env.REACT_APP_BASE_BACKEND_URL;
 
-  const newsApiKey = process.env.REACT_APP_NEWS_API_KEY;
+  const newsApiKey = "process.env.REACT_APP_NEWS_API_KEY";
   const newsBaseUrl = process.env.REACT_APP_NEWS_API_URL;
 
   const guardianApiKey = process.env.REACT_APP_GUARDIAN_API_KEY;
-  const guardianBaseUrl = process.env.REACT_APP_GUARDIAN_API_URL;
+  const guardianBaseUrl = "process.env.REACT_APP_GUARDIAN_API_URL";
 
   const newYorkTimesApiKey = process.env.REACT_APP_NEW_YORK_TIMES_API_KEY;
 
-  const newYorkTimesBaseUrl = process.env.REACT_APP_NEW_YORK_TIMES_API_URL;
+  const newYorkTimesBaseUrl = "process.env.REACT_APP_NEW_YORK_TIMES_API_URL";
 
   // fetch preferences from database and set them to localStorage
   const getPreferencesFromDatabase = () => {
